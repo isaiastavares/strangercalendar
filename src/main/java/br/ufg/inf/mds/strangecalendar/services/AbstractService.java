@@ -32,6 +32,7 @@ public abstract class AbstractService<E extends Entidade> implements Serializabl
 	public final void inserir(E entidade) throws ServicoException {
 		LOG.info("Incluindo " + entidade.getClass().getName());
 
+		antesInserir(entidade);
 		getRepositorio().save(entidade);
 
 		LOG.info(entidade.getClass().getName() + " salvo com sucesso");
@@ -65,5 +66,7 @@ public abstract class AbstractService<E extends Entidade> implements Serializabl
 	}
 
 	protected abstract IRepository<E> getRepositorio();
+
+	protected abstract void antesInserir(E entidade) throws ServicoException;
 
 }

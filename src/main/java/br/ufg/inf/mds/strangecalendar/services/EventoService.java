@@ -6,6 +6,7 @@ import org.springframework.stereotype.Service;
 import br.ufg.inf.mds.strangecalendar.entidade.Evento;
 import br.ufg.inf.mds.strangecalendar.repository.EventoRepository;
 import br.ufg.inf.mds.strangecalendar.repository.IRepository;
+import br.ufg.inf.mds.strangecalendar.services.exceptions.ServicoException;
 
 @Service
 public class EventoService extends AbstractService<Evento> {
@@ -22,5 +23,10 @@ public class EventoService extends AbstractService<Evento> {
 	@Override
 	protected IRepository<Evento> getRepositorio() {
 		return eventoRepository;
+	}
+
+	@Override
+	protected void antesInserir(Evento entidade) throws ServicoException {
+		// TODO implementar validacao
 	}
 }
