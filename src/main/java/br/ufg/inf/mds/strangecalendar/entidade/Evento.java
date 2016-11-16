@@ -4,7 +4,9 @@ import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.OneToMany;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 
 import org.joda.time.LocalDate;
@@ -16,9 +18,6 @@ public class Evento extends Entidade {
 	private static final long serialVersionUID = 5810659606259781926L;
 
 	@Column(nullable = false)
-	private String titulo;
-
-	@Column(nullable = false)
 	private String descricao;
 
 	@Column(nullable = false)
@@ -27,19 +26,17 @@ public class Evento extends Entidade {
 	@Column(nullable = false)
 	private LocalDate dataFim;
 
-	@OneToMany
+	@ManyToMany
+	@JoinTable(name = "eventos_regionais",
+			joinColumns = {@JoinColumn(name = "id_evento")},
+			inverseJoinColumns = {@JoinColumn(name = "id_regional")})
 	private List<Regional> regionais;
 
-	@OneToMany
+	@ManyToMany
+	@JoinTable(name = "eventos_interessados",
+			joinColumns = {@JoinColumn(name = "id_evento")},
+			inverseJoinColumns = {@JoinColumn(name = "id_interessado")})
 	private List<Interessado> interessados;
-
-	public String getTitulo() {
-		return titulo;
-	}
-
-	public void setTitulo(String titulo) {
-		this.titulo = titulo;
-	}
 
 	public String getDescricao() {
 		return descricao;

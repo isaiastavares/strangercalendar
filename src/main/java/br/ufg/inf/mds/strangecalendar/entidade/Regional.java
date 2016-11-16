@@ -1,7 +1,10 @@
 package br.ufg.inf.mds.strangecalendar.entidade;
 
+import java.util.List;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 
 @Entity
@@ -18,6 +21,9 @@ public class Regional extends Entidade {
 
 	@Column(nullable = false)
 	private String estado;
+
+	@ManyToMany(mappedBy = "regionais")
+	private List<Evento> eventos;
 
 	public String getNome() {
 		return nome;
@@ -41,5 +47,13 @@ public class Regional extends Entidade {
 
 	public void setEstado(String estado) {
 		this.estado = estado;
+	}
+
+	public List<Evento> getEventos() {
+		return eventos;
+	}
+
+	public void setEventos(List<Evento> eventos) {
+		this.eventos = eventos;
 	}
 }
