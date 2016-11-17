@@ -10,6 +10,11 @@ import br.ufg.inf.mds.strangecalendar.repository.IRepository;
 import br.ufg.inf.mds.strangecalendar.repository.RegionalRepository;
 import br.ufg.inf.mds.strangecalendar.services.exceptions.ServicoException;
 
+/**
+ * Service de {@link Regional}
+ *
+ * @author Isaias Tavares
+ */
 @Service
 public class RegionalService extends AbstractService<Regional> {
 
@@ -23,7 +28,7 @@ public class RegionalService extends AbstractService<Regional> {
 	}
 
 	@Override
-	protected IRepository<Regional> getRepositorio() {
+	public IRepository<Regional> getRepositorio() {
 		return regionalRepository;
 	}
 

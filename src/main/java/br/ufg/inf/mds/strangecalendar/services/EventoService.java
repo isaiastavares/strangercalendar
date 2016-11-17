@@ -8,6 +8,11 @@ import br.ufg.inf.mds.strangecalendar.repository.EventoRepository;
 import br.ufg.inf.mds.strangecalendar.repository.IRepository;
 import br.ufg.inf.mds.strangecalendar.services.exceptions.ServicoException;
 
+/**
+ * Service de {@link Evento}
+ *
+ * @author Isaias Tavares
+ */
 @Service
 public class EventoService extends AbstractService<Evento> {
 

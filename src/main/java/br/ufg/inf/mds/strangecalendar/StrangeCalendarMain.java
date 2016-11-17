@@ -5,8 +5,14 @@ import java.util.Scanner;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
+import br.ufg.inf.mds.strangecalendar.controller.EventoController;
 import br.ufg.inf.mds.strangecalendar.controller.RegionalController;
 
+/**
+ * Classe Main do Projeto Strange Calendar
+ *
+ * @author Isaias Tavares
+ */
 public class StrangeCalendarMain {
 
 	private static ApplicationContext context;
@@ -41,7 +47,8 @@ public class StrangeCalendarMain {
                 	regionalController.cadastrarRegional(scanner);
                     break;
                 case 2:
-                	System.out.println("Opção ainda não implementada");
+                	EventoController eventoController = context.getBean(EventoController.class);
+                	eventoController.cadastrarEvento(scanner);
                     break;
                 case 3:
                 	System.out.println("Opção ainda não implementada");

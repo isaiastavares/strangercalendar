@@ -7,6 +7,11 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.MappedSuperclass;
 
+/**
+ * Classe abstrata comum a todas as entidades.
+ *
+ * @author Isaias Tavares
+ */
 @MappedSuperclass
 public abstract class Entidade implements Serializable {
 

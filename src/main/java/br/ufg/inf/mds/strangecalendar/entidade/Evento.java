@@ -1,6 +1,6 @@
 package br.ufg.inf.mds.strangecalendar.entidade;
 
-import java.util.List;
+import java.util.Set;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -11,6 +11,12 @@ import javax.persistence.Table;
 
 import org.joda.time.LocalDate;
 
+/**
+ * Entidade contendo informações sobre
+ * o Evento.
+ *
+ * @author Isaias Tavares
+ */
 @Entity
 @Table(name = "evento")
 public class Evento extends Entidade {
@@ -30,13 +36,13 @@ public class Evento extends Entidade {
 	@JoinTable(name = "eventos_regionais",
 			joinColumns = {@JoinColumn(name = "id_evento")},
 			inverseJoinColumns = {@JoinColumn(name = "id_regional")})
-	private List<Regional> regionais;
+	private Set<Regional> regionais;
 
 	@ManyToMany
 	@JoinTable(name = "eventos_interessados",
 			joinColumns = {@JoinColumn(name = "id_evento")},
 			inverseJoinColumns = {@JoinColumn(name = "id_interessado")})
-	private List<Interessado> interessados;
+	private Set<Interessado> interessados;
 
 	public String getDescricao() {
 		return descricao;
@@ -62,19 +68,19 @@ public class Evento extends Entidade {
 		this.dataFim = dataFim;
 	}
 
-	public List<Regional> getRegionais() {
+	public Set<Regional> getRegionais() {
 		return regionais;
 	}
 
-	public void setRegionais(List<Regional> regionais) {
+	public void setRegionais(Set<Regional> regionais) {
 		this.regionais = regionais;
 	}
 
-	public List<Interessado> getInteressados() {
+	public Set<Interessado> getInteressados() {
 		return interessados;
 	}
 
-	public void setInteressados(List<Interessado> interessados) {
+	public void setInteressados(Set<Interessado> interessados) {
 		this.interessados = interessados;
 	}
 

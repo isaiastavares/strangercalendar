@@ -7,6 +7,12 @@ import javax.persistence.Entity;
 import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 
+/**
+ * Entidade contendo as informações
+ * sobre as Regionais.
+ *
+ * @author Isaias Tavares
+ */
 @Entity
 @Table(name = "regional")
 public class Regional extends Entidade {

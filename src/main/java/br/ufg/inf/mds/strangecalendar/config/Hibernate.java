@@ -15,6 +15,12 @@ import org.springframework.orm.jpa.JpaTransactionManager;
 import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
 import org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter;
 
+/**
+ * Classe responsável pela configuração do
+ * Banco de Dados e Hibernate.
+ *
+ * @author Isaias Tavares
+ */
 @Configuration
 public class Hibernate {
 

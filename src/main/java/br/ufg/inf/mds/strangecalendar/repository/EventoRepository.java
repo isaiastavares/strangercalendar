@@ -9,6 +9,11 @@ import org.springframework.stereotype.Repository;
 
 import br.ufg.inf.mds.strangecalendar.entidade.Evento;
 
+/**
+ * Repositório de {@link Evento}
+ *
+ * @author Isaias Tavares
+ */
 @Repository
 public interface EventoRepository extends IRepository<Evento> {
 
