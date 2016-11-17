@@ -9,6 +9,8 @@ import java.util.Scanner;
 import java.util.Set;
 
 import org.joda.time.LocalDate;
+import org.joda.time.format.DateTimeFormat;
+import org.joda.time.format.DateTimeFormatter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,6 +19,7 @@ import org.springframework.stereotype.Controller;
 import br.ufg.inf.mds.strangecalendar.entidade.Evento;
 import br.ufg.inf.mds.strangecalendar.entidade.Interessado;
 import br.ufg.inf.mds.strangecalendar.entidade.Regional;
+import br.ufg.inf.mds.strangecalendar.repository.EventoRepository;
 import br.ufg.inf.mds.strangecalendar.services.EventoService;
 import br.ufg.inf.mds.strangecalendar.services.InteressadoService;
 import br.ufg.inf.mds.strangecalendar.services.RegionalService;
@@ -33,8 +36,13 @@ public class EventoController {
 
 	private static final Logger LOG = LoggerFactory.getLogger(EventoController.class);
 
+	private static final DateTimeFormatter DATE_FORMATTER = DateTimeFormat.forPattern("dd/MM/yyyy");
+
 	@Autowired
 	private EventoService eventoService;
+
+	@Autowired
+	private EventoRepository eventoRepository;
 
 	@Autowired
 	private RegionalService regionalService;
@@ -132,6 +140,26 @@ public class EventoController {
 		} catch (ServicoException e) {
 			System.out.println("\nNão foi possível cadastrar o Evento. Motivo: " + e.getMessage());
 			LOG.trace(e.getMessage(), e);
+		}
+	}
+
+	public void buscarEventoPorData(Scanner scanner) {
+		System.out.println("##### Bem Vindo a Pesquisa de Evento Por Data #####\n");
+
+		LocalDate data = Leitura.lerCampoDateObrigatorio("Informe a data (Formato: dd/MM/yyyy)", scanner);
+
+		List<Evento> eventosFiltrados = eventoRepository.findByData(data);
+
+		if (eventosFiltrados.isEmpty()) {
+			System.out.println("Não encontrei nenhum evento nessa data");
+			return;
+		}
+
+		System.out.println("A Pesquisa retornou os seguintes resultados:\n");
+		for (Evento evento : eventosFiltrados) {
+			System.out.println("Nome: " + evento.getDescricao() +
+					"; Data Início: " + evento.getDataInicio().toString(DATE_FORMATTER) +
+					"; Data Término: " + evento.getDataFim().toString(DATE_FORMATTER));
 		}
 	}
 

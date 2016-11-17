@@ -19,6 +19,8 @@ public class StrangeCalendarMain {
 
 	public static void main(String[] args) {
 		context = new AnnotationConfigApplicationContext(Config.class);
+		RegionalController regionalController = context.getBean(RegionalController.class);
+		EventoController eventoController = context.getBean(EventoController.class);
 
         System.out.println("##### Sistema de Gestão do Calendário Acadêmico da UFG #####");
 
@@ -43,15 +45,13 @@ public class StrangeCalendarMain {
             	case 0:
             		break;
                 case 1:
-                	RegionalController regionalController = context.getBean(RegionalController.class);
                 	regionalController.cadastrarRegional(scanner);
                     break;
                 case 2:
-                	EventoController eventoController = context.getBean(EventoController.class);
                 	eventoController.cadastrarEvento(scanner);
                     break;
                 case 3:
-                	System.out.println("Opção ainda não implementada");
+                	eventoController.buscarEventoPorData(scanner);
                 	break;
                 case 4:
                 	System.out.println("Opção ainda não implementada");

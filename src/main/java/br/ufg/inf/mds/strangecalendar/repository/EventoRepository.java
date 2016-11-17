@@ -19,7 +19,7 @@ public interface EventoRepository extends IRepository<Evento> {
 
 	public List<Evento> findByDescricaoContaining(String palavraChave);
 
-	@Query("select e from Evento e where e.dataInicio >= :data and e.dataFim <= :data")
+	@Query("select e from Evento e where e.dataInicio <= :data and e.dataFim >= :data")
 	public List<Evento> findByData(@Param("data") LocalDate data);
 
 }
