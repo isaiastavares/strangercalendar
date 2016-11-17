@@ -162,9 +162,35 @@ public class EventoController {
 					"; Data Término: " + evento.getDataFim().toString(DATE_FORMATTER));
 		}
 	}
+        
+           public void bucarEventoPorPalavraChave(Scanner scanner) {
+        System.out.println("##### Bem Vindo a Pesquisa de Evento "
+                + "Por Palavra Chave  #####\n");
+
+		String palavraChave = Leitura.lerCampoStringObrigatorio(""
+                        + "Informe a palavra chave", scanner);
+
+		List<Evento> eventosFiltrados = eventoRepository.
+                        findByDescricaoContaining(palavraChave);
+
+		if (eventosFiltrados.isEmpty()) {
+			System.out.println("Não encontrei nenhum evento com"
+                                + "essa palavra chave");
+			return;
+		}
+
+		System.out.println("A Pesquisa retornou os seguintes resultados:\n");
+		for (Evento evento : eventosFiltrados) {
+			System.out.println("Nome: " + evento.getDescricao() +
+					"; Data Início: " + evento.getDataInicio().toString(DATE_FORMATTER) +
+					"; Data Término: " + evento.getDataFim().toString(DATE_FORMATTER));
+		}
+           }
 
 	private EventoService getEventoService() {
 		return eventoService;
 	}
+
+ 
 
 }

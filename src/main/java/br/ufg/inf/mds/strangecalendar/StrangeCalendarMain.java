@@ -54,7 +54,7 @@ public class StrangeCalendarMain {
                 	eventoController.buscarEventoPorData(scanner);
                 	break;
                 case 4:
-                	System.out.println("Opção ainda não implementada");
+                	eventoController.bucarEventoPorPalavraChave(scanner);
                     break;
                 default:
                 	System.out.println("Número Inválido. Tente novamente digitando um número válido.");
