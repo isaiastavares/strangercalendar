@@ -13,42 +13,24 @@ import br.ufg.inf.mds.strangecalendar.services.exceptions.ServicoException;
 import br.ufg.inf.mds.strangecalendar.util.Leitura;
 
 /**
- * Controlador responsável pelas operações
- * relacionadas a Regional
+ * Controlador responsável pelas operações relacionadas a Regional
  *
  * @author Isaias Tavares
  */
 @Controller
 public class RegionalController {
 
-	private static final Logger LOG = LoggerFactory.getLogger(RegionalController.class);
+    @Autowired
+    private RegionalService regionalService;
 
-	@Autowired
-	private RegionalService regionalService;
+    public void cadastrarRegional(Regional regional) throws ServicoException {
 
-	public void cadastrarRegional(Scanner scanner) {
-		System.out.println("##### Bem Vindo ao Cadastro de Regional #####\n");
+        getRegionalService().inserir(regional);
 
-		String nome = Leitura.lerCampoStringObrigatorio("Informe o nome da Regional", scanner);
-		String cidade = Leitura.lerCampoStringObrigatorio("Informe a cidade onde está localizada a Regional", scanner);
-		String estado = Leitura.lerCampoStringObrigatorio("Informe o estado onde está localizada a Regional", scanner);
+    }
 
-		Regional regional = new Regional();
-		regional.setNome(nome);
-		regional.setCidade(cidade);
-		regional.setEstado(estado);
-
-		try {
-			getRegionalService().inserir(regional);
-			System.out.println("\n##### Regional cadastrada com sucesso #####");
-		} catch (ServicoException e) {
-			System.out.println("\nNão foi possível cadastrar a Regional. Motivo: " + e.getMessage());
-			LOG.trace(e.getMessage(), e);
-		}
-	}
-
-	private RegionalService getRegionalService() {
-		return regionalService;
-	}
+    private RegionalService getRegionalService() {
+        return regionalService;
+    }
 
 }

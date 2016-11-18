@@ -50,24 +50,13 @@ public class EventoController {
 	@Autowired
 	private InteressadoService interessadoService;
 
-	public void cadastrarEvento(Scanner scanner) {
-		System.out.println("##### Bem Vindo ao Cadastro de Evento #####\n");
-
-		List<Regional> listRegionais = regionalService.getRepositorio().findAll();
-		if (listRegionais.isEmpty()) {
-			System.out.println("Você não possui nenhuma regional cadastrada ainda. É necessário "
-					+ "cadastrar pelo menos uma Regional para poder Cadastrar um Evento");
-			return;
-		}
-
-		String descricao = Leitura.lerCampoStringObrigatorio("Informe a descrição do Evento", scanner);
-		LocalDate dataInicio = Leitura.lerCampoDateObrigatorio("Informe a data de início do Evento (Formato: dd/MM/yyyy)", scanner);
-		LocalDate dataFim = Leitura.lerCampoDateObrigatorio("Informe a data de término do Evento  (Formato: dd/MM/yyyy)", scanner);
-
+	public void cadastrarEvento(Evento evento) {
+            Scanner scanner = new Scanner(System.in);
 		/**
 		 * Daqui para frente está precisando de uma boa refatorado, mas faço isso depois
 		 * agora o que importa é funcionar rsrs
 		 */
+                List<Regional> listRegionais = regionalService.getRepositorio().findAll();
 		Set<Regional> regionaisEscolhidas = new LinkedHashSet<>();
 		Map<Long, String> mapRegionais = new LinkedHashMap<>();
 		for (Regional regional : listRegionais) {
@@ -127,10 +116,7 @@ public class EventoController {
 					scanner);
 		}
 
-		Evento evento = new Evento();
-		evento.setDescricao(descricao);
-		evento.setDataInicio(dataInicio);
-		evento.setDataFim(dataFim);
+
 		evento.setRegionais(regionaisEscolhidas);
 		evento.setInteressados(interessadosEscolhidos);
 
@@ -143,48 +129,18 @@ public class EventoController {
 		}
 	}
 
-	public void buscarEventoPorData(Scanner scanner) {
-		System.out.println("##### Bem Vindo a Pesquisa de Evento Por Data #####\n");
-
-		LocalDate data = Leitura.lerCampoDateObrigatorio("Informe a data (Formato: dd/MM/yyyy)", scanner);
-
-		List<Evento> eventosFiltrados = eventoRepository.findByData(data);
-
-		if (eventosFiltrados.isEmpty()) {
-			System.out.println("Não encontrei nenhum evento nessa data");
-			return;
-		}
-
-		System.out.println("A Pesquisa retornou os seguintes resultados:\n");
-		for (Evento evento : eventosFiltrados) {
-			System.out.println("Nome: " + evento.getDescricao() +
-					"; Data Início: " + evento.getDataInicio().toString(DATE_FORMATTER) +
-					"; Data Término: " + evento.getDataFim().toString(DATE_FORMATTER));
-		}
-	}
-        
-           public void bucarEventoPorPalavraChave(Scanner scanner) {
-        System.out.println("##### Bem Vindo a Pesquisa de Evento "
-                + "Por Palavra Chave  #####\n");
-
-		String palavraChave = Leitura.lerCampoStringObrigatorio(""
-                        + "Informe a palavra chave", scanner);
+	public List<Evento> buscarEventoPorData(LocalDate data) {
 
 		List<Evento> eventosFiltrados = eventoRepository.
+                        findByData(data);
+                return eventosFiltrados;
+	}
+        
+           public List<Evento> buscarEventoPorPalavraChave(String palavraChave) {
+        
+		List<Evento> eventosFiltrados = eventoRepository.
                         findByDescricaoContaining(palavraChave);
-
-		if (eventosFiltrados.isEmpty()) {
-			System.out.println("Não encontrei nenhum evento com"
-                                + "essa palavra chave");
-			return;
-		}
-
-		System.out.println("A Pesquisa retornou os seguintes resultados:\n");
-		for (Evento evento : eventosFiltrados) {
-			System.out.println("Nome: " + evento.getDescricao() +
-					"; Data Início: " + evento.getDataInicio().toString(DATE_FORMATTER) +
-					"; Data Término: " + evento.getDataFim().toString(DATE_FORMATTER));
-		}
+		return eventosFiltrados;
            }
 
 	private EventoService getEventoService() {
