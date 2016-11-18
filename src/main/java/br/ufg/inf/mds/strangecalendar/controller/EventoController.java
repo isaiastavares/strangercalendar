@@ -34,119 +34,44 @@ import br.ufg.inf.mds.strangecalendar.util.Leitura;
 @Controller
 public class EventoController {
 
-	private static final Logger LOG = LoggerFactory.getLogger(EventoController.class);
+    private static final Logger LOG = LoggerFactory.getLogger(EventoController.class);
 
-	private static final DateTimeFormatter DATE_FORMATTER = DateTimeFormat.forPattern("dd/MM/yyyy");
+    private static final DateTimeFormatter DATE_FORMATTER = DateTimeFormat.forPattern("dd/MM/yyyy");
 
-	@Autowired
-	private EventoService eventoService;
+    @Autowired
+    private EventoService eventoService;
 
-	@Autowired
-	private EventoRepository eventoRepository;
+    @Autowired
+    private EventoRepository eventoRepository;
 
-	@Autowired
-	private RegionalService regionalService;
+    @Autowired
+    private RegionalService regionalService;
 
-	@Autowired
-	private InteressadoService interessadoService;
+    @Autowired
+    private InteressadoService interessadoService;
 
-	public void cadastrarEvento(Evento evento) {
-            Scanner scanner = new Scanner(System.in);
-		/**
-		 * Daqui para frente está precisando de uma boa refatorado, mas faço isso depois
-		 * agora o que importa é funcionar rsrs
-		 */
-                List<Regional> listRegionais = regionalService.getRepositorio().findAll();
-		Set<Regional> regionaisEscolhidas = new LinkedHashSet<>();
-		Map<Long, String> mapRegionais = new LinkedHashMap<>();
-		for (Regional regional : listRegionais) {
-			mapRegionais.put(regional.getId(), regional.getNome());
-		}
-		boolean adicionarRegional = true;
+    public void cadastrarEvento(Evento evento) throws ServicoException {
 
-		while (adicionarRegional) {
-			int idRegional = 0;
-			do {
-				System.out.println("Selecione a regional onde esse evento irá acontecer informando o número correspondente:");
-				for (Entry<Long, String> regional : mapRegionais.entrySet()) {
-					System.out.println(regional.getKey() + " - " + regional.getValue());
-				}
-				try {
-					idRegional = Integer.parseInt(scanner.nextLine());
-					if (idRegional < 1 || idRegional > mapRegionais.size()) {
-						System.out.println("Número informado não corresponde a nenhuma Regional");
-					}
-		        } catch (NumberFormatException ex) {
-		        	System.out.println("Entrada inválida. Informe um número inteiro correspondente a Regional");
-		        }
-			} while (idRegional < 1 || idRegional > mapRegionais.size());
-			regionaisEscolhidas.add(listRegionais.get(idRegional - 1));
+        getEventoService().inserir(evento);
 
-			adicionarRegional = Leitura.lerCampoBooleanObrigatorio("Deseja adicionar mais uma Regional? Digite 1 para SIM e 0 para NÃO.",
-					scanner);
-		}
+    }
 
-		Set<Interessado> interessadosEscolhidos = new LinkedHashSet<>();
-		List<Interessado> listInteressados = interessadoService.getRepositorio().findAll();
-		Map<Long, String> mapInteressados = new LinkedHashMap<>();
-		for (Interessado interessado : listInteressados) {
-			mapInteressados.put(interessado.getId(), interessado.getNome());
-		}
-		boolean adicionarInteressado = true;
+    public List<Evento> buscarEventoPorData(LocalDate data) {
 
-		while (adicionarInteressado) {
-			int idInteressado = 0;
-			do {
-				System.out.println("Selecione o interessado no evento informando o número correspondente:");
-				for (Entry<Long, String> interessado : mapInteressados.entrySet()) {
-					System.out.println(interessado.getKey() + " - " + interessado.getValue());
-				}
-				try {
-					idInteressado = Integer.parseInt(scanner.nextLine());
-					if (idInteressado < 1 || idInteressado > mapInteressados.size()) {
-						System.out.println("Número informado não corresponde a nenhum Interessado");
-					}
-		        } catch (NumberFormatException ex) {
-		        	System.out.println("Entrada inválida. Informe um número inteiro correspondente ao Interessado");
-		        }
-			} while (idInteressado < 1 || idInteressado > mapInteressados.size());
-			interessadosEscolhidos.add(listInteressados.get(idInteressado - 1));
+        List<Evento> eventosFiltrados = eventoRepository.
+                findByData(data);
+        return eventosFiltrados;
+    }
 
-			adicionarInteressado = Leitura.lerCampoBooleanObrigatorio("Deseja adicionar mais um Interessado? Digite 1 para SIM e 0 para NÃO.",
-					scanner);
-		}
+    public List<Evento> buscarEventoPorPalavraChave(String palavraChave) {
 
+        List<Evento> eventosFiltrados = eventoRepository.
+                findByDescricaoContaining(palavraChave);
+        return eventosFiltrados;
+    }
 
-		evento.setRegionais(regionaisEscolhidas);
-		evento.setInteressados(interessadosEscolhidos);
-
-		try {
-			getEventoService().inserir(evento);
-			System.out.println("\n##### Evento cadastrado com sucesso #####");
-		} catch (ServicoException e) {
-			System.out.println("\nNão foi possível cadastrar o Evento. Motivo: " + e.getMessage());
-			LOG.trace(e.getMessage(), e);
-		}
-	}
-
-	public List<Evento> buscarEventoPorData(LocalDate data) {
-
-		List<Evento> eventosFiltrados = eventoRepository.
-                        findByData(data);
-                return eventosFiltrados;
-	}
-        
-           public List<Evento> buscarEventoPorPalavraChave(String palavraChave) {
-        
-		List<Evento> eventosFiltrados = eventoRepository.
-                        findByDescricaoContaining(palavraChave);
-		return eventosFiltrados;
-           }
-
-	private EventoService getEventoService() {
-		return eventoService;
-	}
-
- 
+    private EventoService getEventoService() {
+        return eventoService;
+    }
 
 }
