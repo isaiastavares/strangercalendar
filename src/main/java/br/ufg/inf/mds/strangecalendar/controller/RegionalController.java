@@ -28,4 +28,8 @@ public class RegionalController {
     	return regionalService.getRepositorio().findAll();
     }
 
+    public Regional excluirRegionalPorId(long idEvento) throws ServicoException {
+       return regionalService.excluir(idEvento);
+    }
+
 }
