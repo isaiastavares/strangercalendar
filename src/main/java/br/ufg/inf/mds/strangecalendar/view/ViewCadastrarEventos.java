@@ -13,11 +13,11 @@ import org.slf4j.LoggerFactory;
 import org.springframework.context.ApplicationContext;
 
 import br.ufg.inf.mds.strangecalendar.controller.EventoController;
+import br.ufg.inf.mds.strangecalendar.controller.InteressadoController;
+import br.ufg.inf.mds.strangecalendar.controller.RegionalController;
 import br.ufg.inf.mds.strangecalendar.entidade.Evento;
 import br.ufg.inf.mds.strangecalendar.entidade.Interessado;
 import br.ufg.inf.mds.strangecalendar.entidade.Regional;
-import br.ufg.inf.mds.strangecalendar.services.InteressadoService;
-import br.ufg.inf.mds.strangecalendar.services.RegionalService;
 import br.ufg.inf.mds.strangecalendar.services.exceptions.ServicoException;
 import br.ufg.inf.mds.strangecalendar.util.Leitura;
 
@@ -65,10 +65,10 @@ public class ViewCadastrarEventos {
     }
 
     private boolean naoPossuiRegionaisCadastradas() {
-        RegionalService regionalService =context.getBean(RegionalService.class);
+        RegionalController regionalController = context
+        		.getBean(RegionalController.class);
 
-        List<Regional> listRegionais = regionalService.
-                getRepositorio().findAll();
+        List<Regional> listRegionais = regionalController.listarRegionais();
 
         return listRegionais.isEmpty();
     }
@@ -100,11 +100,11 @@ public class ViewCadastrarEventos {
     }
 
     private Set<Regional> adicionarRegional(Evento evento) {
-        RegionalService regionalService = getContext()
-        		.getBean(RegionalService.class);
+        RegionalController regionalController = getContext()
+        		.getBean(RegionalController.class);
 
-        List<Regional> listRegionaisCadastradas = regionalService.
-                getRepositorio().findAll();
+        List<Regional> listRegionaisCadastradas = regionalController
+        		.listarRegionais();
         Set<Regional> regionaisEscolhidas = new LinkedHashSet<>();
         Map<Long, String> mapRegionais = new LinkedHashMap<>();
         mapRegionais = populaMapRegionais(mapRegionais,
@@ -125,11 +125,11 @@ public class ViewCadastrarEventos {
     }
 
     private Set<Interessado> adicionarInteressado(Evento evento) {
-        InteressadoService interessadoService = getContext()
-        		.getBean(InteressadoService.class);
+        InteressadoController interessadoController = getContext()
+        		.getBean(InteressadoController.class);
 
-        List<Interessado> listInteressadosCadastradas = interessadoService
-        		.getRepositorio().findAll();
+        List<Interessado> listInteressadosCadastradas = interessadoController
+        		.listarInteressados();
         Set<Interessado> interessadosEscolhidas = new LinkedHashSet<>();
         boolean adicionarInteressado = true;
 

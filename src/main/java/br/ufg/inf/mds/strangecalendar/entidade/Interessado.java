@@ -59,4 +59,15 @@ public class Interessado extends Entidade {
 	public void setEventos(List<Evento> eventos) {
 		this.eventos = eventos;
 	}
+
+	@Override
+	public String toString() {
+		StringBuilder builder = new StringBuilder();
+		builder
+			.append(getId())
+			.append(" - ")
+			.append(getNome());
+
+		return builder.toString();
+	}
 }

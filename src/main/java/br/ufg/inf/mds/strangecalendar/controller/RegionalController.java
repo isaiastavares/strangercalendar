@@ -1,5 +1,7 @@
 package br.ufg.inf.mds.strangecalendar.controller;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 
@@ -19,11 +21,11 @@ public class RegionalController {
     private RegionalService regionalService;
 
     public void cadastrarRegional(Regional regional) throws ServicoException {
-        getRegionalService().inserir(regional);
+    	regionalService.inserir(regional);
     }
 
-    private RegionalService getRegionalService() {
-        return regionalService;
+    public List<Regional> listarRegionais() {
+    	return regionalService.getRepositorio().findAll();
     }
 
 }

@@ -1,5 +1,6 @@
 package br.ufg.inf.mds.strangecalendar.view;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
@@ -7,17 +8,14 @@ import org.joda.time.LocalDate;
 import org.springframework.context.ApplicationContext;
 
 import br.ufg.inf.mds.strangecalendar.controller.EventoController;
+import br.ufg.inf.mds.strangecalendar.controller.InteressadoController;
 import br.ufg.inf.mds.strangecalendar.controller.RegionalController;
 import br.ufg.inf.mds.strangecalendar.entidade.Evento;
 import br.ufg.inf.mds.strangecalendar.entidade.Interessado;
 import br.ufg.inf.mds.strangecalendar.entidade.Regional;
 import br.ufg.inf.mds.strangecalendar.enums.Interessados;
-import br.ufg.inf.mds.strangecalendar.services.InteressadoService;
-import br.ufg.inf.mds.strangecalendar.services.RegionalService;
 import br.ufg.inf.mds.strangecalendar.services.exceptions.NaoEncontradoException;
 import br.ufg.inf.mds.strangecalendar.util.Leitura;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 /**
  * @author Leonardo
@@ -27,13 +25,11 @@ public class ViewBuscaEventos {
 	private ApplicationContext context;
 	private Scanner scanner;
 	private EventoController eventoController;
-        private RegionalController regionalController;
 
 	public ViewBuscaEventos(Scanner scanner, ApplicationContext context) {
 		this.scanner = scanner;
 		this.context = context;
 		this.eventoController = context.getBean(EventoController.class);
-                this.regionalController = context.getBean(RegionalController.class);
 	}
 
 	public void exibirBuscaEventoData() {
@@ -76,10 +72,10 @@ public class ViewBuscaEventos {
 		System.out.println("##### Bem Vindo a Pesquisa de Evento "
 				+ "Por Interessado #####\n");
 
-		InteressadoService interessadoService = getContext()
-				.getBean(InteressadoService.class);
-		List<Interessado> listInteressadosCadastradas = interessadoService
-				.getRepositorio().findAll();
+		InteressadoController interessadoController = getContext()
+				.getBean(InteressadoController.class);
+		List<Interessado> listInteressadosCadastradas = interessadoController
+				.listarInteressados();
 
 		int idInteressado = selecionarInteressado(listInteressadosCadastradas);
 		Interessados interessadoEscolhido = Interessados.fromId(idInteressado);
@@ -95,29 +91,32 @@ public class ViewBuscaEventos {
 
 		imprimirEventosEncontrados(eventosFiltrados);
 	}
-        
-        public void exibirBuscaEventoPorRegional() {
-		System.out.println("##### Bem Vindo a Pesquisa de Evento Por Regional #####\n");
 
-		RegionalService regionalService = getContext().getBean(RegionalService.class);
-		List<Regional> listInteressadosCadastradas = regionalService.getRepositorio().findAll();
+    public void exibirBuscaEventoPorRegional() {
+		System.out.println("##### Bem Vindo a Pesquisa de Evento "
+				+ "Por Regional #####\n");
 
-		long idRegional = selecionarRegional(listInteressadosCadastradas);
-		Regional regionalEscolhida = new Regional();
-            try {
-                regionalEscolhida = regionalService.buscarPorId(idRegional);
-            } catch (NaoEncontradoException ex) {
-                Logger.getLogger(ViewBuscaEventos.class.getName()).log(Level.SEVERE, null, ex);
-            }
+		RegionalController regionalController = getContext()
+				.getBean(RegionalController.class);
+		List<Regional> listRegionaisCadastradas = regionalController
+				.listarRegionais();
 
-		List<Evento> eventosFiltrados = buscarEventosPorRegional(regionalEscolhida);
+		long idRegional = selecionarRegional(listRegionaisCadastradas);
 
-		if (!existeEventosParaFiltro(eventosFiltrados)) {
-			System.out.println("Não encontrei nenhum evento para esse interessado");
+		List<Evento> eventosFiltrados = new ArrayList<>();
+		try {
+			eventosFiltrados = buscarEventosPorRegional(idRegional);
+		} catch (NaoEncontradoException e) {
+			System.out.println("Não existe nenhuma regional com o ID: "
+					+ idRegional);
+		}
+
+		if (eventosFiltrados.isEmpty()) {
+			System.out.println("Não encontrei nenhum evento "
+					+ "para essa regional");
 			return;
 		}
-                System.out.println("### Regional " + regionalEscolhida.getNome()
-                + "####");
+
 		imprimirEventosEncontrados(eventosFiltrados);
 	}
 
@@ -126,10 +125,11 @@ public class ViewBuscaEventos {
         do {
             System.out.println("Selecione o interessado no evento informando o"
                     + " número correspondente:");
-            for (Interessado interessado : listInteressados) {
-                System.out.println(interessado.getId() + " - "
-                		+ interessado.getNome());
-            }
+
+            listInteressados.forEach(interessado -> {
+            	System.out.println(interessado.toString());
+            });
+
             try {
                 idInteressado = Integer.parseInt(getScanner().nextLine());
                 if (idInteressado < 1
@@ -144,15 +144,17 @@ public class ViewBuscaEventos {
         } while (idInteressado < 1 || idInteressado > listInteressados.size());
 		return idInteressado;
 	}
-        
-        private int selecionarRegional(List<Regional> listRegionais) {
+
+    private int selecionarRegional(List<Regional> listRegionais) {
 		int idRegional = 0;
         do {
             System.out.println("Selecione a regional do evento informando o"
                     + " número correspondente:");
-            for (Regional regional : listRegionais) {
-                System.out.println(regional.getId() + " - " + regional.getNome());
-            }
+
+            listRegionais.forEach(regional -> {
+            	System.out.println(regional.toString());
+            });
+
             try {
                 idRegional = Integer.parseInt(getScanner().nextLine());
                 if (idRegional < 1 || idRegional > listRegionais.size()) {
@@ -160,8 +162,8 @@ public class ViewBuscaEventos {
                             + "nenhuma Regional");
                 }
             } catch (NumberFormatException ex) {
-                System.out.println("Entrada inválida. Informe um número inteiro "
-                        + "correspondente ao Interessado");
+                System.out.println("Entrada inválida. Informe um número inteiro"
+                        + " correspondente ao Interessado");
             }
         } while (idRegional < 1 || idRegional > listRegionais.size());
 		return idRegional;
@@ -187,18 +189,21 @@ public class ViewBuscaEventos {
 
 		return eventosEncontrados;
 	}
-        
-        private List<Evento> buscarEventosPorRegional(Regional regional) {
-		List<Evento> eventosEncontrados = eventoController.buscarEventoPorRegional(regional);
+
+    private List<Evento> buscarEventosPorRegional(long idRegional)
+    		throws NaoEncontradoException {
+
+		List<Evento> eventosEncontrados = eventoController
+				.buscarEventoPorRegional(idRegional);
 
 		return eventosEncontrados;
 	}
 
 	private void imprimirEventosEncontrados(List<Evento> eventosFiltrados) {
 		System.out.println("A Pesquisa retornou os seguintes resultados:\n");
-		for (Evento evento : eventosFiltrados) {
+		eventosFiltrados.forEach(evento -> {
 			System.out.println(evento.toString());
-		}
+		});
 	}
 
 	public Scanner getScanner() {

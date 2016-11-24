@@ -7,12 +7,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 
 import br.ufg.inf.mds.strangecalendar.entidade.Evento;
-import br.ufg.inf.mds.strangecalendar.entidade.Regional;
 import br.ufg.inf.mds.strangecalendar.enums.Interessados;
 import br.ufg.inf.mds.strangecalendar.repository.EventoRepository;
 import br.ufg.inf.mds.strangecalendar.repository.InteressadoRepository;
-import br.ufg.inf.mds.strangecalendar.repository.RegionalRepository;
 import br.ufg.inf.mds.strangecalendar.services.EventoService;
+import br.ufg.inf.mds.strangecalendar.services.InteressadoService;
+import br.ufg.inf.mds.strangecalendar.services.exceptions.NaoEncontradoException;
 import br.ufg.inf.mds.strangecalendar.services.exceptions.ServicoException;
 
 /**
@@ -27,13 +27,13 @@ public class EventoController {
     private EventoService eventoService;
 
     @Autowired
+    private InteressadoService interessadoService;
+
+    @Autowired
     private EventoRepository eventoRepository;
 
     @Autowired
     private InteressadoRepository interessadoRepository;
-    
-    @Autowired
-    private RegionalRepository regionalRepository;
 
     public void cadastrarEvento(Evento evento) throws ServicoException {
     	eventoService.inserir(evento);
@@ -56,9 +56,12 @@ public class EventoController {
         return eventosFiltrados;
     }
 
-    public List<Evento> buscarEventoPorRegional(Regional regional) {
-        List<Evento> eventosFiltrados = regional.getEventos();
-        return eventosFiltrados;  
+    public List<Evento> buscarEventoPorRegional(long idRegional)
+    		throws NaoEncontradoException {
+
+        List<Evento> eventosFiltrados = interessadoService
+        		.buscarPorId(idRegional).getEventos();
+        return eventosFiltrados;
     }
 
 }
