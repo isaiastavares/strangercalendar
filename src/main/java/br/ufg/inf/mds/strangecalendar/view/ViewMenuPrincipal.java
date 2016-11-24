@@ -12,24 +12,24 @@ import br.ufg.inf.mds.strangecalendar.Config;
  */
 public class ViewMenuPrincipal {
 
-	private static ApplicationContext context;
+    private static ApplicationContext context;
 
     private ViewCadastrarRegional viewCadastrarRegional;
     private ViewCadastrarEventos viewCadastrarEventos;
     private ViewBuscaEventos viewBuscaEventos;
     private ViewExcluirEvento viewExcluirEvento;
 
-	public void exibirMenuPrincipal() {
-		context = new AnnotationConfigApplicationContext(Config.class);
-		Scanner scanner = new Scanner(System.in);
+    public void exibirMenuPrincipal() {
+        context = new AnnotationConfigApplicationContext(Config.class);
+        Scanner scanner = new Scanner(System.in);
 
-		viewCadastrarRegional = new ViewCadastrarRegional(scanner, context);
-		viewCadastrarEventos = new ViewCadastrarEventos(scanner, context);
-		viewBuscaEventos = new ViewBuscaEventos(scanner, context);
-		viewExcluirEvento = new ViewExcluirEvento(scanner, context);
+        viewCadastrarRegional = new ViewCadastrarRegional(scanner, context);
+        viewCadastrarEventos = new ViewCadastrarEventos(scanner, context);
+        viewBuscaEventos = new ViewBuscaEventos(scanner, context);
+        viewExcluirEvento = new ViewExcluirEvento(scanner, context);
 
-		System.out.println("##### Sistema de Gestão do Calendário"
-				+ " Acadêmico da UFG #####");
+        System.out.println("##### Sistema de Gestão do Calendário"
+                + " Acadêmico da UFG #####");
 
         int opcao = 1;
 
@@ -46,7 +46,7 @@ public class ViewMenuPrincipal {
             try {
                 opcao = Integer.parseInt(scanner.nextLine());
             } catch (NumberFormatException ex) {
-            	//  atribuindo 100 a variavel opcao para poder
+                //  atribuindo 100 a variavel opcao para poder
                 //  exibir o menu novamente.
                 opcao = 100;
             }
@@ -55,37 +55,37 @@ public class ViewMenuPrincipal {
         }
         System.out.println("Fim do Programa");
         System.exit(0);
-	}
+    }
 
     private void redirecionarAcao(int opcao, Scanner scanner) {
         switch (opcao) {
-            	case 0:
-            		break;
-                case 1:
-                	viewCadastrarRegional.exibirCadastroRegional();
-                    break;
-                case 2:
-                	viewCadastrarEventos.exibirCadastroEvento();
-                    break;
-                case 3:
-                	viewBuscaEventos.exibirBuscaEventoData();
-                	break;
-                case 4:
-                	viewBuscaEventos.exibirBuscaEventoPalavraChave();
-                    break;
-                case 5:
-                    viewBuscaEventos.exibirBuscaEventoPorRegional();
-                    break;
-                case 6:
-                	viewBuscaEventos.exibirBuscaEventoPorInteressado();
-                    break;
-                case 7:
-                	viewExcluirEvento.exibirExcluirEvento();
-                    break;
-                default:
-                	System.out.println("Número Inválido. Tente novamente "
-                                + "digitando um número válido.");
-                    break;
-            }
+            case 0:
+                break;
+            case 1:
+                viewCadastrarRegional.exibirCadastroRegional();
+                break;
+            case 2:
+                viewCadastrarEventos.exibirCadastroEvento();
+                break;
+            case 3:
+                viewBuscaEventos.exibirBuscaEventoData();
+                break;
+            case 4:
+                viewBuscaEventos.exibirBuscaEventoPalavraChave();
+                break;
+            case 5:
+                viewBuscaEventos.exibirBuscaEventoPorRegional();
+                break;
+            case 6:
+                viewBuscaEventos.exibirBuscaEventoPorInteressado();
+                break;
+            case 7:
+                viewExcluirEvento.exibirExcluirEvento();
+                break;
+            default:
+                System.out.println("Número Inválido. Tente novamente "
+                        + "digitando um número válido.");
+                break;
+        }
     }
 }

@@ -37,7 +37,8 @@ public class RegionalService extends AbstractService<Regional> {
 		Optional<Regional> optional = regionalRepository
 				.findByNomeIgnoreCase(regional.getNome());
 
-		if(optional.isPresent() && optional.get().getId() != regional.getId()) {
+		if(optional.isPresent() && optional.get().getId() != 
+                        regional.getId()) {
 			throw new ServicoException("Já existe uma Regional "
 					+ "com o mesmo nome");
 		}
