@@ -17,7 +17,7 @@ import br.ufg.inf.mds.strangecalendar.entidade.Evento;
 @Repository
 public interface EventoRepository extends IRepository<Evento> {
 
-	public List<Evento> findByDescricaoContaining(String palavraChave);
+	public List<Evento> findByDescricaoContainingIgnoreCase(String palavraChave);
 
 	@Query("select e from Evento e where e.dataInicio <= :data and e.dataFim >= :data")
 	public List<Evento> findByData(@Param("data") LocalDate data);

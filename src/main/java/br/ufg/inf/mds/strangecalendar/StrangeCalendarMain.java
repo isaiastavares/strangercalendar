@@ -4,7 +4,6 @@ import br.ufg.inf.mds.strangecalendar.view.ViewMenuPrincipal;
 
 /**
  * Classe Main do Projeto Strange Calendar
- *
  */
 public class StrangeCalendarMain {
 

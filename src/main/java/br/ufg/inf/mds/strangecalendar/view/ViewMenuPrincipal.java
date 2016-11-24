@@ -1,37 +1,34 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package br.ufg.inf.mds.strangecalendar.view;
 
-import br.ufg.inf.mds.strangecalendar.Config;
-import br.ufg.inf.mds.strangecalendar.controller.EventoController;
 import java.util.Scanner;
+
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
+import br.ufg.inf.mds.strangecalendar.Config;
+
 /**
- *
  * @author Leonardo
  */
 public class ViewMenuPrincipal {
-    
-    private static ApplicationContext context;
-    ViewCadastrarRegional viewCadastrarRegional = new ViewCadastrarRegional();
-    ViewCadastrarEventos viewCadastrarEventos = new ViewCadastrarEventos();
-    ViewBuscaEventos viewBuscaEventos = new ViewBuscaEventos();
-    
-    public void exibirMenuPrincipal(){
-     context = new AnnotationConfigApplicationContext(Config.class);
-     EventoController eventoController = context.
-             getBean(EventoController.class);
-        
-     System.out.println("##### Sistema de Gestão do Calendário"
-             + " Acadêmico da UFG #####");
+
+	private static ApplicationContext context;
+
+    private ViewCadastrarRegional viewCadastrarRegional;
+    private ViewCadastrarEventos viewCadastrarEventos;
+    private ViewBuscaEventos viewBuscaEventos;
+
+	public void exibirMenuPrincipal() {
+		context = new AnnotationConfigApplicationContext(Config.class);
+		Scanner scanner = new Scanner(System.in);
+
+		viewCadastrarRegional = new ViewCadastrarRegional(scanner, context);
+		viewCadastrarEventos = new ViewCadastrarEventos(scanner, context);
+		viewBuscaEventos = new ViewBuscaEventos(scanner, context);
+
+		System.out.println("##### Sistema de Gestão do Calendário" + " Acadêmico da UFG #####");
 
         int opcao = 1;
-        Scanner scanner = new Scanner(System.in);
 
         while (opcao != 0) {
             System.out.println("\n0 - Sair do programa.");
@@ -39,11 +36,12 @@ public class ViewMenuPrincipal {
             System.out.println("2 - Cadastrar Evento.");
             System.out.println("3 - Pesquisar evento por data.");
             System.out.println("4 - Pesquisar evento por palavra chave.");
+            System.out.println("5 - Pesquisar evento por interessado.");
 
             try {
                 opcao = Integer.parseInt(scanner.nextLine());
             } catch (NumberFormatException ex) {
-            	//  atribuindo 100 a variavel opcao para poder 
+            	//  atribuindo 100 a variavel opcao para poder
                 //  exibir o menu novamente.
                 opcao = 100;
             }
@@ -55,21 +53,23 @@ public class ViewMenuPrincipal {
 	}
 
     private void redirecionarAcao(int opcao, Scanner scanner) {
-        
         switch (opcao) {
             	case 0:
             		break;
                 case 1:
-                	viewCadastrarRegional.exibirCadastroRegional(scanner);
+                	viewCadastrarRegional.exibirCadastroRegional();
                     break;
                 case 2:
-                	viewCadastrarEventos.exibirCadastroEvento(scanner);
+                	viewCadastrarEventos.exibirCadastroEvento();
                     break;
                 case 3:
-                	viewBuscaEventos.exibirBuscaEventoData(scanner);
+                	viewBuscaEventos.exibirBuscaEventoData();
                 	break;
                 case 4:
-                	viewBuscaEventos.exibirBuscaEventoPalavraChave(scanner);
+                	viewBuscaEventos.exibirBuscaEventoPalavraChave();
+                    break;
+                case 5:
+                	viewBuscaEventos.exibirBuscaEventoPorInteressado();
                     break;
                 default:
                 	System.out.println("Número Inválido. Tente novamente "

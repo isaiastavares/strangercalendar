@@ -4,6 +4,7 @@ import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 
@@ -22,7 +23,7 @@ public class Interessado extends Entidade {
 	@Column(length = 255, unique = true, nullable = false)
 	private String nome;
 
-	@ManyToMany(mappedBy = "interessados")
+	@ManyToMany(fetch = FetchType.EAGER, mappedBy = "interessados")
 	private List<Evento> eventos;
 
 	/**

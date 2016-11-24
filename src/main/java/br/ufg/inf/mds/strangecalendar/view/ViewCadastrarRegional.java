@@ -1,20 +1,15 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package br.ufg.inf.mds.strangecalendar.view;
 
-import br.ufg.inf.mds.strangecalendar.Config;
+import java.util.Scanner;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.context.ApplicationContext;
+
 import br.ufg.inf.mds.strangecalendar.controller.RegionalController;
 import br.ufg.inf.mds.strangecalendar.entidade.Regional;
 import br.ufg.inf.mds.strangecalendar.services.exceptions.ServicoException;
 import br.ufg.inf.mds.strangecalendar.util.Leitura;
-import java.util.Scanner;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.context.ApplicationContext;
-import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
 /**
  *
@@ -22,41 +17,45 @@ import org.springframework.context.annotation.AnnotationConfigApplicationContext
  */
 public class ViewCadastrarRegional {
 
-    private static ApplicationContext context;
-    
-    private static final Logger LOG = LoggerFactory.getLogger(RegionalController.class);
+	private static final Logger LOG = LoggerFactory.getLogger(ViewCadastrarRegional.class);
 
-    public void exibirCadastroRegional(Scanner scanner) {
+	private Scanner scanner;
+    private ApplicationContext context;
+
+    public ViewCadastrarRegional(Scanner scanner, ApplicationContext context) {
+    	this.scanner = scanner;
+    	this.context = context;
+    }
+
+    public void exibirCadastroRegional() {
         System.out.println("##### Bem Vindo ao Cadastro de Regional #####\n");
 
         String nome = Leitura.lerCampoStringObrigatorio("Informe o nome"
-                + "da Regional", scanner);
+                + "da Regional", getScanner());
         String cidade = Leitura.lerCampoStringObrigatorio("Informe a "
-                + "cidade onde está localizada a Regional", scanner);
+                + "cidade onde está localizada a Regional", getScanner());
         String estado = Leitura.lerCampoStringObrigatorio("Informe o "
-                + "estado onde está localizada a Regional", scanner);
+                + "estado onde está localizada a Regional", getScanner());
 
         Regional regional = new Regional();
         regional = popularObjetoRegional(regional, nome, cidade, estado);
-        
+
         inserirRegional(regional);
     }
 
-    private Regional popularObjetoRegional(Regional regional, String nome, 
+    private Regional popularObjetoRegional(Regional regional, String nome,
             String cidade, String estado) {
 
         regional.setNome(nome);
         regional.setCidade(cidade);
         regional.setEstado(estado);
-        
+
         return regional;
-        }
+    }
 
     private void inserirRegional(Regional regional) {
-
         try {
-            context = new AnnotationConfigApplicationContext(Config.class);
-        RegionalController regionalController = context.getBean(RegionalController.class);
+            RegionalController regionalController = getContext().getBean(RegionalController.class);
             regionalController.cadastrarRegional(regional);
             System.out.println("\n##### Regional cadastrada com sucesso #####");
         } catch (ServicoException e) {
@@ -65,4 +64,21 @@ public class ViewCadastrarRegional {
 			LOG.trace(e.getMessage(), e);
 		}
     }
+
+	public Scanner getScanner() {
+		return scanner;
+	}
+
+	public void setScanner(Scanner scanner) {
+		this.scanner = scanner;
+	}
+
+	public ApplicationContext getContext() {
+		return context;
+	}
+
+	public void setContext(ApplicationContext context) {
+		this.context = context;
+	}
+
 }

@@ -1,13 +1,18 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package br.ufg.inf.mds.strangecalendar.view;
 
-import br.ufg.inf.mds.strangecalendar.Config;
+import java.util.LinkedHashMap;
+import java.util.LinkedHashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.Scanner;
+import java.util.Set;
+
+import org.joda.time.LocalDate;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.context.ApplicationContext;
+
 import br.ufg.inf.mds.strangecalendar.controller.EventoController;
-import br.ufg.inf.mds.strangecalendar.controller.RegionalController;
 import br.ufg.inf.mds.strangecalendar.entidade.Evento;
 import br.ufg.inf.mds.strangecalendar.entidade.Interessado;
 import br.ufg.inf.mds.strangecalendar.entidade.Regional;
@@ -15,18 +20,6 @@ import br.ufg.inf.mds.strangecalendar.services.InteressadoService;
 import br.ufg.inf.mds.strangecalendar.services.RegionalService;
 import br.ufg.inf.mds.strangecalendar.services.exceptions.ServicoException;
 import br.ufg.inf.mds.strangecalendar.util.Leitura;
-import java.util.LinkedHashMap;
-import java.util.LinkedHashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Scanner;
-import java.util.Set;
-import org.joda.time.LocalDate;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.ApplicationContext;
-import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
 /**
  *
@@ -34,15 +27,17 @@ import org.springframework.context.annotation.AnnotationConfigApplicationContext
  */
 public class ViewCadastrarEventos {
 
-    private static final Logger LOG = LoggerFactory.
-            getLogger(RegionalController.class);
+    private static final Logger LOG = LoggerFactory.getLogger(ViewCadastrarEventos.class);
 
-    private static ApplicationContext context;
+    private ApplicationContext context;
+    private Scanner scanner;
 
-    @Autowired
-    private RegionalService regionalService;
+    public ViewCadastrarEventos(Scanner scanner, ApplicationContext context) {
+    	this.scanner = scanner;
+    	this.context = context;
+    }
 
-    public void exibirCadastroEvento(Scanner scanner) {
+    public void exibirCadastroEvento() {
         System.out.println("##### Bem Vindo ao Cadastro de Evento #####\n");
 
         if (!existeRegionaisCadastradas()) {
@@ -53,26 +48,24 @@ public class ViewCadastrarEventos {
         }
 
         String descricao = Leitura.lerCampoStringObrigatorio("Informe a "
-                + "descrição do Evento", scanner);
+                + "descrição do Evento", getScanner());
 
         LocalDate dataInicio = Leitura.lerCampoDateObrigatorio("Informe a data "
-                + "de início do Evento (Formato: dd/MM/yyyy)", scanner);
+                + "de início do Evento (Formato: dd/MM/yyyy)", getScanner());
 
         LocalDate dataFim = Leitura.lerCampoDateObrigatorio("Informe a data de "
-                + "término do Evento  (Formato: dd/MM/yyyy)", scanner);
+                + "término do Evento  (Formato: dd/MM/yyyy)", getScanner());
 
         Evento evento = new Evento();
-        evento = popularObjetoEvento(evento, descricao, dataInicio, dataFim, 
+        evento = popularObjetoEvento(evento, descricao, dataInicio, dataFim,
                 adicionarRegional(evento), adicionarInteressado(evento));
 
         inserirEvento(evento);
     }
 
     private boolean existeRegionaisCadastradas() {
+        RegionalService regionalService = context.getBean(RegionalService.class);
 
-        context = new AnnotationConfigApplicationContext(Config.class);
-        RegionalService regionalService = context.
-                getBean(RegionalService.class);
         boolean existeRegionais = true;
         List<Regional> listRegionais = regionalService.
                 getRepositorio().findAll();
@@ -96,24 +89,20 @@ public class ViewCadastrarEventos {
     }
 
     private void inserirEvento(Evento evento) {
-        context = new AnnotationConfigApplicationContext(Config.class);
-        EventoController eventoController = context.
-                getBean(EventoController.class);
+        EventoController eventoController = getContext().getBean(EventoController.class);
+
         try {
             eventoController.cadastrarEvento(evento);
             System.out.println("\n##### Evento cadastrado com sucesso #####");
         } catch (ServicoException ex) {
-            System.out.println("\nNão foi possível cadastrar o Evento. Motivo:" 
+            System.out.println("\nNão foi possível cadastrar o Evento. Motivo:"
                     + ex.getMessage());
 			LOG.trace(ex.getMessage(), ex);}
     }
 
     private Set<Regional> adicionarRegional(Evento evento) {
+        RegionalService regionalService = getContext().getBean(RegionalService.class);
 
-        Scanner scanner = new Scanner(System.in);
-        context = new AnnotationConfigApplicationContext(Config.class);
-        RegionalService regionalService = context.
-                getBean(RegionalService.class);
         List<Regional> listRegionaisCadastradas = regionalService.
                 getRepositorio().findAll();
         Set<Regional> regionaisEscolhidas = new LinkedHashSet<>();
@@ -124,41 +113,33 @@ public class ViewCadastrarEventos {
 
         while (adicionarRegional) {
             regionaisEscolhidas = adicionarRegionalSelecionadaNaList(
-                    mapRegionais, regionaisEscolhidas, 
+                    mapRegionais, regionaisEscolhidas,
                     listRegionaisCadastradas);
 
             adicionarRegional = Leitura.lerCampoBooleanObrigatorio("Deseja "
                     + "adicionar mais uma Regional? Digite 1 para SIM "
-                    + "e 0 para NÃO.", scanner);
+                    + "e 0 para NÃO.", getScanner());
         }
 
         return regionaisEscolhidas;
     }
 
     private Set<Interessado> adicionarInteressado(Evento evento) {
+        InteressadoService interessadoService = getContext().getBean(InteressadoService.class);
 
-        Scanner scanner = new Scanner(System.in);
-        context = new AnnotationConfigApplicationContext(Config.class);
-        InteressadoService interessadoService = context.
-                getBean(InteressadoService.class);
-        List<Interessado> listInteressadosCadastradas = interessadoService.
-                getRepositorio().findAll();
+        List<Interessado> listInteressadosCadastradas = interessadoService.getRepositorio().findAll();
         Set<Interessado> interessadosEscolhidas = new LinkedHashSet<>();
-        Map<Long, String> mapInteressados = new LinkedHashMap<>();
-        mapInteressados = populaMapInteressados(mapInteressados,
-                listInteressadosCadastradas);
         boolean adicionarInteressado = true;
 
         while (adicionarInteressado) {
             interessadosEscolhidas = adicionarInteressadoSelecionadaNaList(
-                    mapInteressados, interessadosEscolhidas, 
-                    listInteressadosCadastradas);
+                    interessadosEscolhidas, listInteressadosCadastradas);
 
             adicionarInteressado = Leitura.lerCampoBooleanObrigatorio("Deseja "
                     + "adicionar mais uma Regional? Digite 1 para SIM "
-                    + "e 0 para NÃO.", scanner);
+                    + "e 0 para NÃO.", getScanner());
         }
-        
+
         return interessadosEscolhidas;
     }
 
@@ -171,22 +152,11 @@ public class ViewCadastrarEventos {
         return mapRegionais;
     }
 
-    private Map<Long, String> populaMapInteressados(
-            Map<Long, String> mapInteressados,
-            List<Interessado> listInteressadosCadastradas) {
-
-        for (Interessado interessado : listInteressadosCadastradas) {
-            mapInteressados.put(interessado.getId(), interessado.getNome());
-        }
-        return mapInteressados;
-    }
-
     private Set<Regional> adicionarRegionalSelecionadaNaList(
             Map<Long, String> mapRegionais, Set<Regional> regionaisEscolhidas,
             List<Regional> listRegionaisCadastradas) {
 
         int idRegional = 0;
-        Scanner scanner = new Scanner(System.in);
         do {
             System.out.println("Selecione a regional onde esse evento irá "
                     + "acontecer informando o número correspondente:");
@@ -195,7 +165,7 @@ public class ViewCadastrarEventos {
                         + regional.getValue());
             }
             try {
-                idRegional = Integer.parseInt(scanner.nextLine());
+                idRegional = Integer.parseInt(getScanner().nextLine());
                 if (idRegional < 1 || idRegional > mapRegionais.size()) {
                     System.out.println("Número informado não corresponde a "
                             + "nenhuma Regional");
@@ -211,24 +181,27 @@ public class ViewCadastrarEventos {
     }
 
     private Set<Interessado> adicionarInteressadoSelecionadaNaList(
-            Map<Long, String> mapInteressados, 
             Set<Interessado> interessadosEscolhidos,
             List<Interessado> listInteressadosCadastrados) {
 
-        Scanner scanner = new Scanner(System.in);
-        int idInteressado = 0;
+        int idInteressado = selecionarInteressado(listInteressadosCadastrados);
+
+        interessadosEscolhidos.add(listInteressadosCadastrados.
+                get(idInteressado - 1));
+        return interessadosEscolhidos;
+    }
+
+    private int selecionarInteressado(List<Interessado> listInteressados) {
+		int idInteressado = 0;
         do {
             System.out.println("Selecione o interessado no evento informando o"
                     + " número correspondente:");
-            for (Map.Entry<Long, String> interessado : mapInteressados.
-                    entrySet()) {
-                System.out.println(interessado.getKey() + " - " 
-                        + interessado.getValue());
+            for (Interessado interessado : listInteressados) {
+                System.out.println(interessado.getId() + " - " + interessado.getNome());
             }
             try {
-                idInteressado = Integer.parseInt(scanner.nextLine());
-                if (idInteressado < 1 || idInteressado > 
-                        mapInteressados.size()) {
+                idInteressado = Integer.parseInt(getScanner().nextLine());
+                if (idInteressado < 1 || idInteressado > listInteressados.size()) {
                     System.out.println("Número informado não corresponde a "
                             + "nenhum Interessado");
                 }
@@ -236,10 +209,24 @@ public class ViewCadastrarEventos {
                 System.out.println("Entrada inválida. Informe um número inteiro "
                         + "correspondente ao Interessado");
             }
-        } while (idInteressado < 1 || idInteressado > mapInteressados.size());
-        interessadosEscolhidos.add(listInteressadosCadastrados.
-                get(idInteressado - 1));
-        return interessadosEscolhidos;
-    }
+        } while (idInteressado < 1 || idInteressado > listInteressados.size());
+		return idInteressado;
+	}
+
+    public Scanner getScanner() {
+		return scanner;
+	}
+
+	public void setScanner(Scanner scanner) {
+		this.scanner = scanner;
+	}
+
+	public ApplicationContext getContext() {
+		return context;
+	}
+
+	public void setContext(ApplicationContext context) {
+		this.context = context;
+	}
 
 }

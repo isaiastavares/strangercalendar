@@ -4,6 +4,7 @@ import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 
@@ -28,7 +29,7 @@ public class Regional extends Entidade {
 	@Column(nullable = false)
 	private String estado;
 
-	@ManyToMany(mappedBy = "regionais")
+	@ManyToMany(fetch = FetchType.EAGER, mappedBy = "regionais")
 	private List<Evento> eventos;
 
 	public String getNome() {
