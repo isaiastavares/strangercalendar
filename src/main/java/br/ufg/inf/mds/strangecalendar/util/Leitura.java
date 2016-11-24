@@ -14,7 +14,8 @@ import org.joda.time.format.DateTimeFormatter;
  */
 public final class Leitura {
 
-	public static final DateTimeFormatter DATE_FORMATTER = DateTimeFormat.forPattern("dd/MM/yyyy");
+	public static final DateTimeFormatter DATE_FORMATTER = DateTimeFormat
+			.forPattern("dd/MM/yyyy");
 
 	private Leitura() {
 	}
@@ -27,7 +28,9 @@ public final class Leitura {
 	 * @param scanner instancia do Scanner
 	 * @return o campo String informado
 	 */
-	public static String lerCampoStringObrigatorio(String mensagem, Scanner scanner) {
+	public static String lerCampoStringObrigatorio(String mensagem,
+			Scanner scanner) {
+
 		String valor = "";
 		do {
 			System.out.println(mensagem);
@@ -45,7 +48,9 @@ public final class Leitura {
 	 * @param scanner instancia do Scanner
 	 * @return o campo Integer informado
 	 */
-	public static Integer lerCampoIntegerObrigatorio(String mensagem, Scanner scanner) {
+	public static Integer lerCampoIntegerObrigatorio(String mensagem,
+			Scanner scanner) {
+
 		Integer valor = null;
 		do {
 			try {
@@ -67,7 +72,9 @@ public final class Leitura {
 	 * @param scanner instancia do Scanner
 	 * @return o valor Boolean
 	 */
-	public static Boolean lerCampoBooleanObrigatorio(String mensagem, Scanner scanner) {
+	public static Boolean lerCampoBooleanObrigatorio(String mensagem,
+			Scanner scanner) {
+
 		Boolean valorBooleano = false;
 		Integer valor = null;
 		do {
@@ -82,7 +89,8 @@ public final class Leitura {
 						valorBooleano = true;
 						break;
 					default:
-						System.out.println("Valor informado não corresponde as opções!");
+						System.out.println("Valor informado não corresponde "
+								+ "as opções!");
 						valor = null;
 						break;
 				}
@@ -102,7 +110,9 @@ public final class Leitura {
 	 * @param scanner instancia do Scanner
 	 * @return a data informada
 	 */
-	public static LocalDate lerCampoDateObrigatorio(String mensagem, Scanner scanner) {
+	public static LocalDate lerCampoDateObrigatorio(String mensagem,
+			Scanner scanner) {
+
 		LocalDate date = null;
 		do {
 			try {
@@ -110,7 +120,8 @@ public final class Leitura {
 				String dataTexto = scanner.nextLine();
 				date = LocalDate.parse(dataTexto, DATE_FORMATTER);
 	        } catch (final IllegalArgumentException e) {
-	        	System.out.println("Data Inválida. Informe uma data no formato dd/MM/yyyy");
+	        	System.out.println("Data Inválida. Informe uma data no "
+	        			+ "formato dd/MM/yyyy");
 	        	date = null;
 	        }
 		} while (date == null);

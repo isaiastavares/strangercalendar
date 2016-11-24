@@ -17,7 +17,8 @@ import br.ufg.inf.mds.strangecalendar.util.Leitura;
  */
 public class ViewCadastrarRegional {
 
-	private static final Logger LOG = LoggerFactory.getLogger(ViewCadastrarRegional.class);
+	private static final Logger LOG = LoggerFactory
+			.getLogger(ViewCadastrarRegional.class);
 
 	private Scanner scanner;
     private ApplicationContext context;
@@ -55,7 +56,8 @@ public class ViewCadastrarRegional {
 
     private void inserirRegional(Regional regional) {
         try {
-            RegionalController regionalController = getContext().getBean(RegionalController.class);
+            RegionalController regionalController = getContext()
+            		.getBean(RegionalController.class);
             regionalController.cadastrarRegional(regional);
             System.out.println("\n##### Regional cadastrada com sucesso #####");
         } catch (ServicoException e) {

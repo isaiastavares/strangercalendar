@@ -29,13 +29,15 @@ public class ViewBuscaEventos {
 	}
 
 	public void exibirBuscaEventoData() {
-		System.out.println("##### Bem Vindo a Pesquisa de Evento Por Data #####\n");
+		System.out.println("##### Bem Vindo a Pesquisa de "
+				+ "Evento Por Data #####\n");
 
-		LocalDate data = Leitura.lerCampoDateObrigatorio("Informe a data (Formato: dd/MM/yyyy)", getScanner());
+		LocalDate data = Leitura.lerCampoDateObrigatorio("Informe a data "
+				+ "(Formato: dd/MM/yyyy)", getScanner());
 
 		List<Evento> eventosFiltrados = buscarEventosPorData(data);
 
-		if (!existeEventosParaFiltro(eventosFiltrados)) {
+		if (eventosFiltrados.isEmpty()) {
 			System.out.println("Não encontrei nenhum evento nessa data");
 			return;
 		}
@@ -44,14 +46,18 @@ public class ViewBuscaEventos {
 	}
 
 	public void exibirBuscaEventoPalavraChave() {
-		System.out.println("##### Bem Vindo a Pesquisa de Evento Por Palavra Chave #####\n");
+		System.out.println("##### Bem Vindo a Pesquisa de Evento "
+				+ "Por Palavra Chave #####\n");
 
-		String palavraChave = Leitura.lerCampoStringObrigatorio("Informe a palavra chave", getScanner());
+		String palavraChave = Leitura.lerCampoStringObrigatorio(
+				"Informe a palavra chave", getScanner());
 
-		List<Evento> eventosFiltrados = buscarEventosPorPalavraChave(palavraChave);
+		List<Evento> eventosFiltrados = buscarEventosPorPalavraChave(
+				palavraChave);
 
-		if (!existeEventosParaFiltro(eventosFiltrados)) {
-			System.out.println("Não encontrei nenhum evento por essa palavra chave");
+		if (eventosFiltrados.isEmpty()) {
+			System.out.println("Não encontrei nenhum evento "
+					+ "por essa palavra chave");
 			return;
 		}
 
@@ -59,18 +65,23 @@ public class ViewBuscaEventos {
 	}
 
 	public void exibirBuscaEventoPorInteressado() {
-		System.out.println("##### Bem Vindo a Pesquisa de Evento Por Interessado #####\n");
+		System.out.println("##### Bem Vindo a Pesquisa de Evento "
+				+ "Por Interessado #####\n");
 
-		InteressadoService interessadoService = getContext().getBean(InteressadoService.class);
-		List<Interessado> listInteressadosCadastradas = interessadoService.getRepositorio().findAll();
+		InteressadoService interessadoService = getContext()
+				.getBean(InteressadoService.class);
+		List<Interessado> listInteressadosCadastradas = interessadoService
+				.getRepositorio().findAll();
 
 		int idInteressado = selecionarInteressado(listInteressadosCadastradas);
 		Interessados interessadoEscolhido = Interessados.fromId(idInteressado);
 
-		List<Evento> eventosFiltrados = buscarEventosPorInteressado(interessadoEscolhido);
+		List<Evento> eventosFiltrados = buscarEventosPorInteressado(
+				interessadoEscolhido);
 
-		if (!existeEventosParaFiltro(eventosFiltrados)) {
-			System.out.println("Não encontrei nenhum evento para esse interessado");
+		if (eventosFiltrados.isEmpty()) {
+			System.out.println("Não encontrei nenhum evento "
+					+ "para esse interessado");
 			return;
 		}
 
@@ -83,54 +94,49 @@ public class ViewBuscaEventos {
             System.out.println("Selecione o interessado no evento informando o"
                     + " número correspondente:");
             for (Interessado interessado : listInteressados) {
-                System.out.println(interessado.getId() + " - " + interessado.getNome());
+                System.out.println(interessado.getId() + " - "
+                		+ interessado.getNome());
             }
             try {
                 idInteressado = Integer.parseInt(getScanner().nextLine());
-                if (idInteressado < 1 || idInteressado > listInteressados.size()) {
+                if (idInteressado < 1
+                		|| idInteressado > listInteressados.size()) {
                     System.out.println("Número informado não corresponde a "
                             + "nenhum Interessado");
                 }
             } catch (NumberFormatException ex) {
-                System.out.println("Entrada inválida. Informe um número inteiro "
-                        + "correspondente ao Interessado");
+                System.out.println("Entrada inválida. Informe um número inteiro"
+                        + " correspondente ao Interessado");
             }
         } while (idInteressado < 1 || idInteressado > listInteressados.size());
 		return idInteressado;
 	}
 
 	private List<Evento> buscarEventosPorData(LocalDate data) {
-		List<Evento> eventosEncontrados = eventoController.buscarEventoPorData(data);
+		List<Evento> eventosEncontrados = eventoController
+				.buscarEventoPorData(data);
 
 		return eventosEncontrados;
 	}
 
 	private List<Evento> buscarEventosPorPalavraChave(String palavraChave) {
-		List<Evento> eventosEncontrados = eventoController.buscarEventoPorPalavraChave(palavraChave);
+		List<Evento> eventosEncontrados = eventoController
+				.buscarEventoPorPalavraChave(palavraChave);
 
 		return eventosEncontrados;
 	}
 
 	private List<Evento> buscarEventosPorInteressado(Interessados interessado) {
-		List<Evento> eventosEncontrados = eventoController.buscarEventoPorInteressado(interessado);
+		List<Evento> eventosEncontrados = eventoController
+				.buscarEventoPorInteressado(interessado);
 
 		return eventosEncontrados;
-	}
-
-	private boolean existeEventosParaFiltro(List<Evento> eventosFiltrados) {
-		boolean existeEventos = true;
-		if (eventosFiltrados.isEmpty()) {
-			existeEventos = false;
-		}
-		return existeEventos;
 	}
 
 	private void imprimirEventosEncontrados(List<Evento> eventosFiltrados) {
 		System.out.println("A Pesquisa retornou os seguintes resultados:\n");
 		for (Evento evento : eventosFiltrados) {
-			System.out.println("Nome: " + evento.getDescricao() + "; Data Início: "
-					+ evento.getDataInicio().toString(Leitura.DATE_FORMATTER) + "; Data Término: "
-					+ evento.getDataFim().toString(Leitura.DATE_FORMATTER));
+			System.out.println(evento.toString());
 		}
 	}
 

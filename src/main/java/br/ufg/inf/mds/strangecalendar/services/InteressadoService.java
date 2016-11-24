@@ -38,7 +38,9 @@ public class InteressadoService extends AbstractService<Interessado> {
     public void initialize() {
         if (interessadoRepository.findAll().isEmpty()) {
             for (Interessados interessado : Interessados.values()) {
-            	interessadoRepository.save(new Interessado(interessado.getNome(), new ArrayList<Evento>()));
+            	interessadoRepository.save(
+            			new Interessado(interessado.getNome(),
+            			new ArrayList<Evento>()));
             }
         }
     }
@@ -50,6 +52,6 @@ public class InteressadoService extends AbstractService<Interessado> {
 
 	@Override
 	protected void antesInserir(Interessado entidade) throws ServicoException {
-		// TODO implementar validacao
+		// nao e necessario validao nesse caso
 	}
 }

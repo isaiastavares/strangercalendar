@@ -34,10 +34,12 @@ public class RegionalService extends AbstractService<Regional> {
 
 	@Override
 	protected void antesInserir(Regional regional) throws ServicoException {
-		Optional<Regional> optional = regionalRepository.findByNomeIgnoreCase(regional.getNome());
+		Optional<Regional> optional = regionalRepository
+				.findByNomeIgnoreCase(regional.getNome());
 
 		if(optional.isPresent() && optional.get().getId() != regional.getId()) {
-			throw new ServicoException("Já existe uma Regional com o mesmo nome");
+			throw new ServicoException("Já existe uma Regional "
+					+ "com o mesmo nome");
 		}
 	}
 }

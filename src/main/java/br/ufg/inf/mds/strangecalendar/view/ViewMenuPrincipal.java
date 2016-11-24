@@ -26,7 +26,8 @@ public class ViewMenuPrincipal {
 		viewCadastrarEventos = new ViewCadastrarEventos(scanner, context);
 		viewBuscaEventos = new ViewBuscaEventos(scanner, context);
 
-		System.out.println("##### Sistema de Gestão do Calendário" + " Acadêmico da UFG #####");
+		System.out.println("##### Sistema de Gestão do Calendário"
+				+ " Acadêmico da UFG #####");
 
         int opcao = 1;
 

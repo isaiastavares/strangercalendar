@@ -11,18 +11,21 @@ import br.ufg.inf.mds.strangecalendar.repository.IRepository;
 import br.ufg.inf.mds.strangecalendar.services.exceptions.NaoEncontradoException;
 import br.ufg.inf.mds.strangecalendar.services.exceptions.ServicoException;
 
-public abstract class AbstractService<E extends Entidade> implements Serializable {
+public abstract class AbstractService<E extends Entidade>
+													implements Serializable {
 
 	private static final long serialVersionUID = -3064318938495857779L;
 
-	private static final Logger LOG = LoggerFactory.getLogger(AbstractService.class);
+	private static final Logger LOG = LoggerFactory
+			.getLogger(AbstractService.class);
 
 	@Transactional(readOnly = true)
 	public final E buscarPorId(Long id) throws NaoEncontradoException {
 		E entidade = getRepositorio().findOne(id);
 
 		if (entidade == null) {
-			throw new NaoEncontradoException(String.format("Não foi possível encontrar entidade com ID %d", id));
+			throw new NaoEncontradoException(String.format("Não foi possível "
+					+ "encontrar entidade com ID %d", id));
 		}
 
 		return entidade;
@@ -40,15 +43,18 @@ public abstract class AbstractService<E extends Entidade> implements Serializabl
 
 	@Transactional
 	public final void atualizar(E entidade) throws ServicoException {
-		LOG.info("Atualizando " + entidade.getClass().getName() + " com id " + entidade.getId());
+		LOG.info("Atualizando " + entidade.getClass().getName()
+				+ " com id " + entidade.getId());
 
 		if (entidade.getId() == null) {
-			throw new ServicoException("Não deve acionar método atualizar para entidades sem ID");
+			throw new ServicoException("Não deve acionar método atualizar "
+					+ "para entidades sem ID");
 		}
 
 		getRepositorio().save(entidade);
 
-		LOG.info(entidade.getClass().getName() + " com id " + entidade.getId() + " atulizado com sucesso");
+		LOG.info(entidade.getClass().getName() + " com id " + entidade.getId()
+				+ " atulizado com sucesso");
 	}
 
 	@Transactional
@@ -57,7 +63,8 @@ public abstract class AbstractService<E extends Entidade> implements Serializabl
 
 		if(entidade == null) {
 			throw new ServicoException(
-					String.format("Nao é possível excluir entidade com ID %d. Entidade não existe.", id));
+					String.format("Nao é possível excluir entidade com ID %d. "
+							+ "Entidade não existe.", id));
 		}
 
 		getRepositorio().delete(entidade);

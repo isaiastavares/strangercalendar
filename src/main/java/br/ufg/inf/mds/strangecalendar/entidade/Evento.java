@@ -11,6 +11,8 @@ import javax.persistence.Table;
 
 import org.joda.time.LocalDate;
 
+import br.ufg.inf.mds.strangecalendar.util.Leitura;
+
 /**
  * Entidade contendo informações sobre
  * o Evento.
@@ -22,6 +24,7 @@ import org.joda.time.LocalDate;
 public class Evento extends Entidade {
 
 	private static final long serialVersionUID = 5810659606259781926L;
+	private static final String SEPARATOR = "; ";
 
 	@Column(nullable = false)
 	private String descricao;
@@ -84,4 +87,19 @@ public class Evento extends Entidade {
 		this.interessados = interessados;
 	}
 
+	@Override
+	public String toString() {
+		StringBuilder builder = new StringBuilder();
+		builder
+				.append("Nome: ")
+				.append(getDescricao())
+				.append(SEPARATOR)
+				.append("Data Início: ")
+				.append(getDataInicio().toString(Leitura.DATE_FORMATTER))
+				.append(SEPARATOR)
+				.append("Data Término: ")
+				.append(getDataFim().toString(Leitura.DATE_FORMATTER))
+				.append(SEPARATOR);
+		return builder.toString();
+	}
 }

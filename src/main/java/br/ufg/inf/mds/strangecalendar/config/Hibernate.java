@@ -42,7 +42,9 @@ public class Hibernate {
 
 	@Bean
 	public DataSource dataSource() {
-		final DriverManagerDataSource dataSource = new DriverManagerDataSource();
+		final DriverManagerDataSource dataSource =
+				new DriverManagerDataSource();
+
 		dataSource.setDriverClassName(driver);
 		dataSource.setUrl(url);
 		dataSource.setUsername(username);
@@ -53,8 +55,12 @@ public class Hibernate {
 
 	@Bean
 	@Autowired
-	public LocalContainerEntityManagerFactoryBean entityManagerFactory(DataSource dataSource) {
-		LocalContainerEntityManagerFactoryBean emf = new LocalContainerEntityManagerFactoryBean();
+	public LocalContainerEntityManagerFactoryBean entityManagerFactory(
+			DataSource dataSource) {
+
+		LocalContainerEntityManagerFactoryBean emf =
+				new LocalContainerEntityManagerFactoryBean();
+
 		Map<String, String> properties = new HashMap<>();
 
 		properties.put(org.hibernate.cfg.Environment.DIALECT, dialect);
@@ -78,7 +84,9 @@ public class Hibernate {
 	 */
 	@Bean
 	@Autowired
-	public JpaTransactionManager transactionManager(EntityManagerFactory managerFactory) {
+	public JpaTransactionManager transactionManager(
+			EntityManagerFactory managerFactory) {
+
 		return new JpaTransactionManager(managerFactory);
 	}
 }

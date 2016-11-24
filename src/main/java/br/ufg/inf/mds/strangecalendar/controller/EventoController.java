@@ -46,7 +46,8 @@ public class EventoController {
     }
 
     public List<Evento> buscarEventoPorInteressado(Interessados interessado) {
-        List<Evento> eventosFiltrados = interessadoRepository.findByNome(interessado.getNome()).getEventos();
+        List<Evento> eventosFiltrados = interessadoRepository.
+        		findByNome(interessado.getNome()).getEventos();
         return eventosFiltrados;
     }
 

@@ -1,5 +1,7 @@
 package br.ufg.inf.mds.strangecalendar.enums;
 
+import br.ufg.inf.mds.strangecalendar.entidade.Interessado;
+
 public enum Interessados {
 
 	COMUNIDADE_EM_GERAL(1, "Comunidade em Geral"),
@@ -31,6 +33,12 @@ public enum Interessados {
 		this.nome = nome;
 	}
 
+	/**
+	 * Retorna o interessado a partir do ID.
+	 *
+	 * @param id do interessado
+	 * @return {@link Interessado} a partir do ID.
+	 */
 	public static Interessados fromId(Integer id) {
 		if (id != null) {
 			for (Interessados interessado : Interessados.values()) {

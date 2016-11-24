@@ -8,7 +8,8 @@ import javax.persistence.Converter;
 import org.joda.time.LocalDate;
 
 @Converter(autoApply = true)
-public class LocalDateAttributeConverter implements AttributeConverter<LocalDate, Date> {
+public class LocalDateAttributeConverter
+						implements AttributeConverter<LocalDate, Date> {
 
     @Override
     public Date convertToDatabaseColumn(LocalDate localDate) {
