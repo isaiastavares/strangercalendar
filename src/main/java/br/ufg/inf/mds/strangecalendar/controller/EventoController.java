@@ -39,29 +39,32 @@ public class EventoController {
     	eventoService.inserir(evento);
     }
 
+    public List<Evento> listarEventos() {
+    	return eventoService.getRepositorio().findAll();
+    }
+
+    public Evento excluirEventoPorId(Long idEvento) throws ServicoException {
+    	return eventoService.excluir(idEvento);
+    }
+
     public List<Evento> buscarEventoPorData(LocalDate data) {
-        List<Evento> eventosFiltrados = eventoRepository.findByData(data);
-        return eventosFiltrados;
+        return eventoRepository.findByData(data);
     }
 
     public List<Evento> buscarEventoPorPalavraChave(String palavraChave) {
-        List<Evento> eventosFiltrados = eventoRepository.
+    	return eventoRepository.
         		findByDescricaoContainingIgnoreCase(palavraChave);
-        return eventosFiltrados;
     }
 
     public List<Evento> buscarEventoPorInteressado(Interessados interessado) {
-        List<Evento> eventosFiltrados = interessadoRepository.
-        		findByNome(interessado.getNome()).getEventos();
-        return eventosFiltrados;
+        return interessadoRepository
+        		.findByNome(interessado.getNome()).getEventos();
     }
 
     public List<Evento> buscarEventoPorRegional(long idRegional)
     		throws NaoEncontradoException {
 
-        List<Evento> eventosFiltrados = interessadoService
-        		.buscarPorId(idRegional).getEventos();
-        return eventosFiltrados;
+        return interessadoService.buscarPorId(idRegional).getEventos();
     }
 
 }

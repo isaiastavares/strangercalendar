@@ -21,11 +21,11 @@ public class ViewCadastrarRegional {
 			.getLogger(ViewCadastrarRegional.class);
 
 	private Scanner scanner;
-    private ApplicationContext context;
+	private RegionalController regionalController;
 
     public ViewCadastrarRegional(Scanner scanner, ApplicationContext context) {
     	this.scanner = scanner;
-    	this.context = context;
+    	this.regionalController = context.getBean(RegionalController.class);
     }
 
     public void exibirCadastroRegional() {
@@ -56,8 +56,6 @@ public class ViewCadastrarRegional {
 
     private void inserirRegional(Regional regional) {
         try {
-            RegionalController regionalController = getContext()
-            		.getBean(RegionalController.class);
             regionalController.cadastrarRegional(regional);
             System.out.println("\n##### Regional cadastrada com sucesso #####");
         } catch (ServicoException e) {
@@ -73,14 +71,6 @@ public class ViewCadastrarRegional {
 
 	public void setScanner(Scanner scanner) {
 		this.scanner = scanner;
-	}
-
-	public ApplicationContext getContext() {
-		return context;
-	}
-
-	public void setContext(ApplicationContext context) {
-		this.context = context;
 	}
 
 }

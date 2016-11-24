@@ -30,12 +30,17 @@ public class ViewCadastrarEventos {
     private static final Logger LOG = LoggerFactory
     		.getLogger(ViewCadastrarEventos.class);
 
-    private ApplicationContext context;
     private Scanner scanner;
+    private EventoController eventoController;
+	private InteressadoController interessadoController;
+	private RegionalController regionalController;
 
     public ViewCadastrarEventos(Scanner scanner, ApplicationContext context) {
     	this.scanner = scanner;
-    	this.context = context;
+    	this.eventoController = context.getBean(EventoController.class);
+		this.interessadoController = context
+				.getBean(InteressadoController.class);
+		this.regionalController = context.getBean(RegionalController.class);
     }
 
     public void exibirCadastroEvento() {
@@ -65,9 +70,6 @@ public class ViewCadastrarEventos {
     }
 
     private boolean naoPossuiRegionaisCadastradas() {
-        RegionalController regionalController = context
-        		.getBean(RegionalController.class);
-
         List<Regional> listRegionais = regionalController.listarRegionais();
 
         return listRegionais.isEmpty();
@@ -87,9 +89,6 @@ public class ViewCadastrarEventos {
     }
 
     private void inserirEvento(Evento evento) {
-        EventoController eventoController = getContext()
-        		.getBean(EventoController.class);
-
         try {
             eventoController.cadastrarEvento(evento);
             System.out.println("\n##### Evento cadastrado com sucesso #####");
@@ -100,9 +99,6 @@ public class ViewCadastrarEventos {
     }
 
     private Set<Regional> adicionarRegional(Evento evento) {
-        RegionalController regionalController = getContext()
-        		.getBean(RegionalController.class);
-
         List<Regional> listRegionaisCadastradas = regionalController
         		.listarRegionais();
         Set<Regional> regionaisEscolhidas = new LinkedHashSet<>();
@@ -125,9 +121,6 @@ public class ViewCadastrarEventos {
     }
 
     private Set<Interessado> adicionarInteressado(Evento evento) {
-        InteressadoController interessadoController = getContext()
-        		.getBean(InteressadoController.class);
-
         List<Interessado> listInteressadosCadastradas = interessadoController
         		.listarInteressados();
         Set<Interessado> interessadosEscolhidas = new LinkedHashSet<>();
@@ -223,14 +216,6 @@ public class ViewCadastrarEventos {
 
 	public void setScanner(Scanner scanner) {
 		this.scanner = scanner;
-	}
-
-	public ApplicationContext getContext() {
-		return context;
-	}
-
-	public void setContext(ApplicationContext context) {
-		this.context = context;
 	}
 
 }

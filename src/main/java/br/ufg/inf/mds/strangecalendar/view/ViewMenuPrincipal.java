@@ -17,6 +17,7 @@ public class ViewMenuPrincipal {
     private ViewCadastrarRegional viewCadastrarRegional;
     private ViewCadastrarEventos viewCadastrarEventos;
     private ViewBuscaEventos viewBuscaEventos;
+    private ViewExcluirEvento viewExcluirEvento;
 
 	public void exibirMenuPrincipal() {
 		context = new AnnotationConfigApplicationContext(Config.class);
@@ -25,6 +26,7 @@ public class ViewMenuPrincipal {
 		viewCadastrarRegional = new ViewCadastrarRegional(scanner, context);
 		viewCadastrarEventos = new ViewCadastrarEventos(scanner, context);
 		viewBuscaEventos = new ViewBuscaEventos(scanner, context);
+		viewExcluirEvento = new ViewExcluirEvento(scanner, context);
 
 		System.out.println("##### Sistema de Gestão do Calendário"
 				+ " Acadêmico da UFG #####");
@@ -35,10 +37,11 @@ public class ViewMenuPrincipal {
             System.out.println("\n0 - Sair do programa.");
             System.out.println("1 - Cadastrar Regional.");
             System.out.println("2 - Cadastrar Evento.");
-            System.out.println("3 - Pesquisar evento por data.");
-            System.out.println("4 - Pesquisar evento por palavra chave.");
+            System.out.println("3 - Pesquisar evento por Data.");
+            System.out.println("4 - Pesquisar evento por Palavra Chave.");
             System.out.println("5 - Pesquisar evento por Regional");
             System.out.println("6 - Pesquisar evento por Interessado.");
+            System.out.println("7 - Excluir Evento.");
 
             try {
                 opcao = Integer.parseInt(scanner.nextLine());
@@ -75,6 +78,9 @@ public class ViewMenuPrincipal {
                     break;
                 case 6:
                 	viewBuscaEventos.exibirBuscaEventoPorInteressado();
+                    break;
+                case 7:
+                	viewExcluirEvento.exibirExcluirEvento();
                     break;
                 default:
                 	System.out.println("Número Inválido. Tente novamente "

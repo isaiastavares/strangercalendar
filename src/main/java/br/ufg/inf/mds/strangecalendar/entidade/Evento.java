@@ -91,6 +91,9 @@ public class Evento extends Entidade {
 	public String toString() {
 		StringBuilder builder = new StringBuilder();
 		builder
+				.append("Id: ")
+				.append(getId())
+				.append(SEPARATOR)
 				.append("Nome: ")
 				.append(getDescricao())
 				.append(SEPARATOR)

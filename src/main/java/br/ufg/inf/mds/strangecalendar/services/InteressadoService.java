@@ -52,6 +52,6 @@ public class InteressadoService extends AbstractService<Interessado> {
 
 	@Override
 	protected void antesInserir(Interessado entidade) throws ServicoException {
-		// nao e necessario validao nesse caso
+		// TODO implementar validacao
 	}
 }

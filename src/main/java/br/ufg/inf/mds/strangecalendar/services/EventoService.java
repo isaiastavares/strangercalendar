@@ -26,7 +26,7 @@ public class EventoService extends AbstractService<Evento> {
 	}
 
 	@Override
-	protected IRepository<Evento> getRepositorio() {
+	public IRepository<Evento> getRepositorio() {
 		return eventoRepository;
 	}
 

@@ -22,14 +22,17 @@ import br.ufg.inf.mds.strangecalendar.util.Leitura;
  */
 public class ViewBuscaEventos {
 
-	private ApplicationContext context;
 	private Scanner scanner;
 	private EventoController eventoController;
+	private InteressadoController interessadoController;
+	private RegionalController regionalController;
 
 	public ViewBuscaEventos(Scanner scanner, ApplicationContext context) {
 		this.scanner = scanner;
-		this.context = context;
 		this.eventoController = context.getBean(EventoController.class);
+		this.interessadoController = context
+				.getBean(InteressadoController.class);
+		this.regionalController = context.getBean(RegionalController.class);
 	}
 
 	public void exibirBuscaEventoData() {
@@ -72,8 +75,6 @@ public class ViewBuscaEventos {
 		System.out.println("##### Bem Vindo a Pesquisa de Evento "
 				+ "Por Interessado #####\n");
 
-		InteressadoController interessadoController = getContext()
-				.getBean(InteressadoController.class);
 		List<Interessado> listInteressadosCadastradas = interessadoController
 				.listarInteressados();
 
@@ -96,8 +97,6 @@ public class ViewBuscaEventos {
 		System.out.println("##### Bem Vindo a Pesquisa de Evento "
 				+ "Por Regional #####\n");
 
-		RegionalController regionalController = getContext()
-				.getBean(RegionalController.class);
 		List<Regional> listRegionaisCadastradas = regionalController
 				.listarRegionais();
 
@@ -163,7 +162,7 @@ public class ViewBuscaEventos {
                 }
             } catch (NumberFormatException ex) {
                 System.out.println("Entrada inválida. Informe um número inteiro"
-                        + " correspondente ao Interessado");
+                        + " correspondente a Regional");
             }
         } while (idRegional < 1 || idRegional > listRegionais.size());
 		return idRegional;
@@ -212,13 +211,5 @@ public class ViewBuscaEventos {
 
 	public void setScanner(Scanner scanner) {
 		this.scanner = scanner;
-	}
-
-	public ApplicationContext getContext() {
-		return context;
-	}
-
-	public void setContext(ApplicationContext context) {
-		this.context = context;
 	}
 }
