@@ -32,20 +32,22 @@ public class ViewBuscaEventos {
 		this.eventoController = context.getBean(EventoController.class);
 		this.interessadoController = context
 				.getBean(InteressadoController.class);
-		this.regionalController = context.getBean(RegionalController.class);
+		this.regionalController = context
+                        .getBean(RegionalController.class);
 	}
 
 	public void exibirBuscaEventoData() {
 		System.out.println("##### Bem Vindo a Pesquisa de "
 				+ "Evento Por Data #####\n");
 
-		LocalDate data = Leitura.lerCampoDateObrigatorio("Informe a data "
-				+ "(Formato: dd/MM/yyyy)", getScanner());
+		LocalDate data = Leitura.lerCampoDateObrigatorio("Informe a "
+                        + "data(Formato: dd/MM/yyyy)", getScanner());
 
 		List<Evento> eventosFiltrados = buscarEventosPorData(data);
 
 		if (eventosFiltrados.isEmpty()) {
-			System.out.println("Não encontrei nenhum evento nessa data");
+			System.out.println("Não encontrei nenhum evento "
+                                + "nessa data");
 			return;
 		}
 
@@ -75,11 +77,13 @@ public class ViewBuscaEventos {
 		System.out.println("##### Bem Vindo a Pesquisa de Evento "
 				+ "Por Interessado #####\n");
 
-		List<Interessado> listInteressadosCadastradas = interessadoController
-				.listarInteressados();
+		List<Interessado> listInteressadosCadastradas = 
+                        interessadoController.listarInteressados();
 
-		int idInteressado = selecionarInteressado(listInteressadosCadastradas);
-		Interessados interessadoEscolhido = Interessados.fromId(idInteressado);
+		int idInteressado = selecionarInteressado(
+                        listInteressadosCadastradas);
+		Interessados interessadoEscolhido = Interessados
+                        .fromId(idInteressado);
 
 		List<Evento> eventosFiltrados = buscarEventosPorInteressado(
 				interessadoEscolhido);
@@ -106,8 +110,8 @@ public class ViewBuscaEventos {
 		try {
 			eventosFiltrados = buscarEventosPorRegional(idRegional);
 		} catch (NaoEncontradoException e) {
-			System.out.println("Não existe nenhuma regional com o ID: "
-					+ idRegional);
+			System.out.println("Não existe nenhuma regional "
+                                + "com o ID: " + idRegional);
 		}
 
 		if (eventosFiltrados.isEmpty()) {
@@ -182,7 +186,8 @@ public class ViewBuscaEventos {
 		return eventosEncontrados;
 	}
 
-	private List<Evento> buscarEventosPorInteressado(Interessados interessado) {
+	private List<Evento> buscarEventosPorInteressado(
+                Interessados interessado) {
 		List<Evento> eventosEncontrados = eventoController
 				.buscarEventoPorInteressado(interessado);
 
@@ -199,7 +204,8 @@ public class ViewBuscaEventos {
 	}
 
 	private void imprimirEventosEncontrados(List<Evento> eventosFiltrados) {
-		System.out.println("A Pesquisa retornou os seguintes resultados:\n");
+		System.out.println("A Pesquisa retornou os seguintes "
+                        + "resultados:\n");
 		eventosFiltrados.forEach(evento -> {
 			System.out.println(evento.toString());
 		});

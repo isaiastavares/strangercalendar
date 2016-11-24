@@ -12,7 +12,7 @@ import br.ufg.inf.mds.strangecalendar.Config;
  */
 public class ViewMenuPrincipal {
 
-	private static ApplicationContext context;
+    private static ApplicationContext context;
 
     private ViewCadastrarRegional viewCadastrarRegional;
     private ViewCadastrarEventos viewCadastrarEventos;
@@ -20,9 +20,9 @@ public class ViewMenuPrincipal {
     private ViewExcluirEvento viewExcluirEvento;
     private ViewExcluirRegional viewExcluirRegional;
 
-	public void exibirMenuPrincipal() {
-		context = new AnnotationConfigApplicationContext(Config.class);
-		Scanner scanner = new Scanner(System.in);
+    public void exibirMenuPrincipal() {
+        context = new AnnotationConfigApplicationContext(Config.class);
+        Scanner scanner = new Scanner(System.in);
 
 		viewCadastrarRegional = new ViewCadastrarRegional(scanner, context);
 		viewCadastrarEventos = new ViewCadastrarEventos(scanner, context);
@@ -30,8 +30,8 @@ public class ViewMenuPrincipal {
 		viewExcluirEvento = new ViewExcluirEvento(scanner, context);
                 viewExcluirRegional = new ViewExcluirRegional(scanner, context);
 
-		System.out.println("##### Sistema de Gestão do Calendário"
-				+ " Acadêmico da UFG #####");
+        System.out.println("##### Sistema de Gestão do Calendário"
+                + " Acadêmico da UFG #####");
 
         int opcao = 1;
 
@@ -49,7 +49,7 @@ public class ViewMenuPrincipal {
             try {
                 opcao = Integer.parseInt(scanner.nextLine());
             } catch (NumberFormatException ex) {
-            	//  atribuindo 100 a variavel opcao para poder
+                //  atribuindo 100 a variavel opcao para poder
                 //  exibir o menu novamente.
                 opcao = 100;
             }
@@ -58,7 +58,7 @@ public class ViewMenuPrincipal {
         }
         System.out.println("Fim do Programa");
         System.exit(0);
-	}
+    }
 
     private void redirecionarAcao(int opcao, Scanner scanner) {
         switch (opcao) {
