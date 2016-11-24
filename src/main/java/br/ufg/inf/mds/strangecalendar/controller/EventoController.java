@@ -7,9 +7,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 
 import br.ufg.inf.mds.strangecalendar.entidade.Evento;
+import br.ufg.inf.mds.strangecalendar.entidade.Regional;
 import br.ufg.inf.mds.strangecalendar.enums.Interessados;
 import br.ufg.inf.mds.strangecalendar.repository.EventoRepository;
 import br.ufg.inf.mds.strangecalendar.repository.InteressadoRepository;
+import br.ufg.inf.mds.strangecalendar.repository.RegionalRepository;
 import br.ufg.inf.mds.strangecalendar.services.EventoService;
 import br.ufg.inf.mds.strangecalendar.services.exceptions.ServicoException;
 
@@ -29,6 +31,9 @@ public class EventoController {
 
     @Autowired
     private InteressadoRepository interessadoRepository;
+    
+    @Autowired
+    private RegionalRepository regionalRepository;
 
     public void cadastrarEvento(Evento evento) throws ServicoException {
     	eventoService.inserir(evento);
@@ -48,6 +53,11 @@ public class EventoController {
     public List<Evento> buscarEventoPorInteressado(Interessados interessado) {
         List<Evento> eventosFiltrados = interessadoRepository.findByNome(interessado.getNome()).getEventos();
         return eventosFiltrados;
+    }
+
+    public List<Evento> buscarEventoPorRegional(Regional regional) {
+        List<Evento> eventosFiltrados = regional.getEventos();
+        return eventosFiltrados;  
     }
 
 }

@@ -36,7 +36,8 @@ public class ViewMenuPrincipal {
             System.out.println("2 - Cadastrar Evento.");
             System.out.println("3 - Pesquisar evento por data.");
             System.out.println("4 - Pesquisar evento por palavra chave.");
-            System.out.println("5 - Pesquisar evento por interessado.");
+            System.out.println("5 - Pesquisar evento por Regional");
+            System.out.println("6 - Pesquisar evento por interessado.");
 
             try {
                 opcao = Integer.parseInt(scanner.nextLine());
@@ -69,6 +70,9 @@ public class ViewMenuPrincipal {
                 	viewBuscaEventos.exibirBuscaEventoPalavraChave();
                     break;
                 case 5:
+                        viewBuscaEventos.exibirBuscaEventoPorRegional();
+                    break;
+                case 6:
                 	viewBuscaEventos.exibirBuscaEventoPorInteressado();
                     break;
                 default:
