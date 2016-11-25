@@ -19,17 +19,22 @@ public class ViewMenuPrincipal {
     private ViewBuscaEventos viewBuscaEventos;
     private ViewExcluirEvento viewExcluirEvento;
     private ViewEditarEvento viewEditarEvento;
+    private ViewExcluirRegional viewExcluirRegional;
 
     public void exibirMenuPrincipal() {
         context = new AnnotationConfigApplicationContext(Config.class);
         Scanner scanner = new Scanner(System.in);
-
         
         viewCadastrarRegional = new ViewCadastrarRegional(scanner, context);
         viewCadastrarEventos = new ViewCadastrarEventos(scanner, context);
         viewBuscaEventos = new ViewBuscaEventos(scanner, context);
         viewExcluirEvento = new ViewExcluirEvento(scanner, context);
         viewEditarEvento = new ViewEditarEvento(scanner, context);
+		viewCadastrarRegional = new ViewCadastrarRegional(scanner, context);
+		viewCadastrarEventos = new ViewCadastrarEventos(scanner, context);
+		viewBuscaEventos = new ViewBuscaEventos(scanner, context);
+		viewExcluirEvento = new ViewExcluirEvento(scanner, context);
+        viewExcluirRegional = new ViewExcluirRegional(scanner, context);
 
         System.out.println("##### Sistema de Gestão do Calendário"
                 + " Acadêmico da UFG #####");
@@ -45,7 +50,8 @@ public class ViewMenuPrincipal {
             System.out.println("5 - Pesquisar evento por Regional");
             System.out.println("6 - Pesquisar evento por Interessado.");
             System.out.println("7 - Excluir Evento.");
-            System.out.println("8 - Editar Evento.");
+            System.out.println("8 - Excluir Regional.");
+            System.out.println("9 - Editar Evento.");
 
             try {
                 opcao = Integer.parseInt(scanner.nextLine());
@@ -63,35 +69,38 @@ public class ViewMenuPrincipal {
 
     private void redirecionarAcao(int opcao, Scanner scanner) {
         switch (opcao) {
-            case 0:
-                break;
+        	case 0:
+        		break;
             case 1:
-                viewCadastrarRegional.exibirCadastroRegional();
+            	viewCadastrarRegional.exibirCadastroRegional();
                 break;
             case 2:
-                viewCadastrarEventos.exibirCadastroEvento();
+            	viewCadastrarEventos.exibirCadastroEvento();
                 break;
             case 3:
-                viewBuscaEventos.exibirBuscaEventoData();
-                break;
+            	viewBuscaEventos.exibirBuscaEventoData();
+            	break;
             case 4:
-                viewBuscaEventos.exibirBuscaEventoPalavraChave();
+            	viewBuscaEventos.exibirBuscaEventoPalavraChave();
                 break;
             case 5:
                 viewBuscaEventos.exibirBuscaEventoPorRegional();
                 break;
             case 6:
-                viewBuscaEventos.exibirBuscaEventoPorInteressado();
+            	viewBuscaEventos.exibirBuscaEventoPorInteressado();
                 break;
             case 7:
-                viewExcluirEvento.exibirExcluirEvento();
+            	viewExcluirEvento.exibirExcluirEvento();
                 break;
             case 8:
-                viewEditarEvento.exibirEditarEvento();
+            	viewExcluirRegional.exibirExcluirRegional();
+                break;
+            case 9:
+            	viewEditarEvento.exibirEditarEvento();
                 break;
             default:
-                System.out.println("Número Inválido. Tente novamente "
-                        + "digitando um número válido.");
+            	System.out.println("Número Inválido. Tente novamente "
+                            + "digitando um número válido.");
                 break;
         }
     }
