@@ -23,5 +23,8 @@ public interface EventoRepository extends IRepository<Evento> {
 	@Query("select e from Evento e where "
 			+ "e.dataInicio <= :data and e.dataFim >= :data")
 	public List<Evento> findByData(@Param("data") LocalDate data);
+	
+	@Query("select e from Evento e where id = :id")
+	public Evento findById(@Param("id") Long id);
 
 }

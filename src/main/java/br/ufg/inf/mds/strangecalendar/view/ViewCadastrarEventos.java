@@ -131,7 +131,7 @@ public class ViewCadastrarEventos {
                     interessadosEscolhidas, listInteressadosCadastradas);
 
             adicionarInteressado = Leitura.lerCampoBooleanObrigatorio("Deseja "
-                    + "adicionar mais uma Regional? Digite 1 para SIM "
+                    + "adicionar mais um Interessado? Digite 1 para SIM "
                     + "e 0 para NÃO.", getScanner());
         }
 

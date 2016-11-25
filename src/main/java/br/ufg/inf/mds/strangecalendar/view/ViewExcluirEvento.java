@@ -45,7 +45,7 @@ public class ViewExcluirEvento {
 					+ idEvento);
 		}
 	}
-
+	
 	private void imprimirEventosEncontrados(List<Evento> eventos) {
 		eventos.forEach(evento -> {
 			System.out.println(evento.toString());
