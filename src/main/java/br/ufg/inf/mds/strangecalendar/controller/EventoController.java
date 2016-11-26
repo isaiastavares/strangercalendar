@@ -6,7 +6,6 @@ import org.joda.time.LocalDate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 
-import br.ufg.inf.mds.strangecalendar.entidade.Entidade;
 import br.ufg.inf.mds.strangecalendar.entidade.Evento;
 import br.ufg.inf.mds.strangecalendar.enums.Interessados;
 import br.ufg.inf.mds.strangecalendar.repository.EventoRepository;
@@ -47,11 +46,11 @@ public class EventoController {
     public Evento excluirEventoPorId(Long idEvento) throws ServicoException {
     	return eventoService.excluir(idEvento);
     }
-    
+
     public void atualizarEvento(Evento evento) throws ServicoException {
     	eventoService.atualizar(evento);
     }
-    
+
     public Evento buscarEventoPorId(Long id) throws ServicoException {
         return eventoRepository.findById(id);
     }

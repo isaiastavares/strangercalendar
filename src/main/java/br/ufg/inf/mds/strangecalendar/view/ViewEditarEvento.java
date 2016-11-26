@@ -30,7 +30,7 @@ public class ViewEditarEvento {
 	private EventoController eventoController;
 	private InteressadoController interessadoController;
 	private RegionalController regionalController;
-	
+
 	public ViewEditarEvento(Scanner scanner, ApplicationContext context) {
 		this.scanner = scanner;
 		this.eventoController = context.getBean(EventoController.class);
@@ -56,31 +56,33 @@ public class ViewEditarEvento {
 
 		try {
 			long idEventoLong = Long.parseLong(idEvento.toString());
-			
+
 			Evento evento = eventoController.buscarEventoPorId(idEventoLong);
-			
-			String descricao = Leitura.lerCampoStringObrigatorio("Informe a nova "
-	                + "descrição do Evento", getScanner());
 
-	        LocalDate dataInicio = Leitura.lerCampoDateObrigatorio("Informe a nova data "
-	                + "de início do Evento (Formato: dd/MM/yyyy)", getScanner());
+			String descricao = Leitura.lerCampoStringObrigatorio("Informe a "
+					+ "nova descrição do Evento", getScanner());
 
-	        LocalDate dataFim = Leitura.lerCampoDateObrigatorio("Informe a nova data de "
-	                + "término do Evento  (Formato: dd/MM/yyyy)", getScanner());
-	        
+	        LocalDate dataInicio = Leitura.lerCampoDateObrigatorio("Informe a "
+	        		+ "nova data de início do Evento (Formato: dd/MM/yyyy)",
+	        		getScanner());
+
+	        LocalDate dataFim = Leitura.lerCampoDateObrigatorio("Informe a nova"
+	        		+ " data de término do Evento  (Formato: dd/MM/yyyy)",
+	        		getScanner());
+
 	        evento = popularObjetoEvento(evento, descricao, dataInicio, dataFim,
 	                adicionarRegional(evento), adicionarInteressado(evento));
-	        
+
 	        eventoController.atualizarEvento(evento);
-	        
+
 	        System.out.println("Evento editado com sucesso! Detalhes do "
 					+ "evento: " + evento.toString());
-			
+
 		} catch (ServicoException e) {
 			System.out.println("Não existe evento com o ID: "	+ idEvento);
 		}
 	}
-	
+
 	private Set<Regional> adicionarRegional(Evento evento) {
         List<Regional> listRegionaisCadastradas = regionalController
         		.listarRegionais();
@@ -120,7 +122,7 @@ public class ViewEditarEvento {
 
         return interessadosEscolhidas;
     }
-    
+
     private Map<Long, String> populaMapRegionais(Map<Long, String> mapRegionais,
             List<Regional> listRegionaisCadastradas) {
 
@@ -192,7 +194,7 @@ public class ViewEditarEvento {
         } while (idInteressado < 1 || idInteressado > listInteressados.size());
 		return idInteressado;
 	}
-    
+
     private Evento popularObjetoEvento(Evento evento, String descricao,
             LocalDate dataInicio, LocalDate dataFim, Set<Regional> listRegional,
             Set<Interessado>listInteressados) {
@@ -205,13 +207,13 @@ public class ViewEditarEvento {
 
         return evento;
     }
-    
+
     private void imprimirEventosEncontrados(List<Evento> eventos) {
 		eventos.forEach(evento -> {
 			System.out.println(evento.toString());
 		});
 	}
-	
+
 	public Scanner getScanner() {
 		return scanner;
 	}
