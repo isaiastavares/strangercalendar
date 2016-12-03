@@ -104,25 +104,30 @@ public class ViewBuscaEventos {
 		List<Regional> listRegionaisCadastradas = regionalController
 				.listarRegionais();
 
-		long idRegional = selecionarRegional(listRegionaisCadastradas);
+                if ( ! listRegionaisCadastradas.isEmpty()) {
+                    long idRegional = selecionarRegional(listRegionaisCadastradas);
 
-		List<Evento> eventosFiltrados = new ArrayList<>();
-		try {
-			eventosFiltrados = buscarEventosPorRegional(idRegional);
-		} catch (NaoEncontradoException e) {
-			System.out.println("Não existe nenhuma regional "
-                                + "com o ID: " + idRegional);
-		}
+                    List<Evento> eventosFiltrados = new ArrayList<>();
+                    try {
+                            eventosFiltrados = buscarEventosPorRegional(idRegional);
+                    } catch (NaoEncontradoException e) {
+                            System.out.println("Não existe nenhuma regional "
+                                    + "com o ID: " + idRegional);
+                    }
 
-		if (eventosFiltrados.isEmpty()) {
-			System.out.println("Não encontrei nenhum evento "
-					+ "para essa regional");
-			return;
-		}
+                    if (eventosFiltrados.isEmpty()) {
+                            System.out.println("Não encontrei nenhum evento "
+                                            + "para essa regional");
+                            return;
+                    }
 
-		imprimirEventosEncontrados(eventosFiltrados);
+                    imprimirEventosEncontrados(eventosFiltrados);
+                }else{
+                    System.out.println("Não existe nenhuma regional cadastrada");
+                    return;
+                }
 	}
-
+    
 	private int selecionarInteressado(List<Interessado> listInteressados) {
 		int idInteressado = 0;
         do {
