@@ -20,6 +20,7 @@ public class ViewMenuPrincipal {
     private ViewExcluirEvento viewExcluirEvento;
     private ViewEditarEvento viewEditarEvento;
     private ViewExcluirRegional viewExcluirRegional;
+    private ViewListarRegionais viewListarRegionais;
 
     public void exibirMenuPrincipal() {
         context = new AnnotationConfigApplicationContext(Config.class);
@@ -35,6 +36,7 @@ public class ViewMenuPrincipal {
 		viewBuscaEventos = new ViewBuscaEventos(scanner, context);
 		viewExcluirEvento = new ViewExcluirEvento(scanner, context);
         viewExcluirRegional = new ViewExcluirRegional(scanner, context);
+        viewListarRegionais = new ViewListarRegionais(context);
 
         System.out.println("##### Sistema de Gestão do Calendário"
                 + " Acadêmico da UFG #####");
@@ -52,6 +54,7 @@ public class ViewMenuPrincipal {
             System.out.println("7 - Excluir Evento.");
             System.out.println("8 - Excluir Regional.");
             System.out.println("9 - Editar Evento.");
+            System.out.println("10 - Listar regionais.");
 
             try {
                 opcao = Integer.parseInt(scanner.nextLine());
@@ -97,6 +100,9 @@ public class ViewMenuPrincipal {
                 break;
             case 9:
             	viewEditarEvento.exibirEditarEvento();
+                break;
+            case 10:
+            	viewListarRegionais.listarRegionais();
                 break;
             default:
             	System.out.println("Número Inválido. Tente novamente "
