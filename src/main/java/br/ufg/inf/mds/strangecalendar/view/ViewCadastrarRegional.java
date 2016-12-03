@@ -31,7 +31,7 @@ public class ViewCadastrarRegional {
     public void exibirCadastroRegional() {
         System.out.println("##### Bem Vindo ao Cadastro de Regional #####\n");
 
-        String nome = Leitura.lerCampoStringObrigatorio("Informe o nome"
+        String nome = Leitura.lerCampoStringObrigatorio("Informe o nome "
                 + "da Regional", getScanner());
         String cidade = Leitura.lerCampoStringObrigatorio("Informe a "
                 + "cidade onde está localizada a Regional", getScanner());
