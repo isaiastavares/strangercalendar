@@ -23,12 +23,6 @@ public class Regional extends Entidade {
 	@Column(length = 255, unique = true, nullable = false)
 	private String nome;
 
-	@Column(nullable = false)
-	private String cidade;
-
-	@Column(nullable = false)
-	private String estado;
-
 	@ManyToMany(fetch = FetchType.EAGER, mappedBy = "regionais")
 	private List<Evento> eventos;
 
@@ -38,22 +32,6 @@ public class Regional extends Entidade {
 
 	public void setNome(String nome) {
 		this.nome = nome;
-	}
-
-	public String getCidade() {
-		return cidade;
-	}
-
-	public void setCidade(String cidade) {
-		this.cidade = cidade;
-	}
-
-	public String getEstado() {
-		return estado;
-	}
-
-	public void setEstado(String estado) {
-		this.estado = estado;
 	}
 
 	public List<Evento> getEventos() {
