@@ -141,7 +141,7 @@ public class ViewBuscaEventos {
 				int opcao = 1;
 		        while (opcao != 0) {
 		        	System.out.println("Você está na Regional " + regional.getNome() +
-		        			" . Escolha uma das opções abaixo: ");
+		        			". Escolha uma das opções abaixo: ");
 		        	System.out.println("\n0 - Sair do menu.");
 		            System.out.println("1 - Listar todos os eventos da Regional.");
 		            System.out.println("2 - Pesquisar evento por Palavra Chave.");
