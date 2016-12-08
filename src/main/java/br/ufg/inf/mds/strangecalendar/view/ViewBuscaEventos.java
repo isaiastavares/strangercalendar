@@ -31,8 +31,7 @@ public class ViewBuscaEventos {
 		this.eventoController = context.getBean(EventoController.class);
 		this.interessadoController = context
 				.getBean(InteressadoController.class);
-		this.regionalController = context
-                        .getBean(RegionalController.class);
+		this.regionalController = context.getBean(RegionalController.class);
 	}
 
 	public void exibirBuscaEventoData() {
@@ -40,7 +39,7 @@ public class ViewBuscaEventos {
 				+ "Evento Por Data #####\n");
 
 		LocalDateTime data = Leitura.lerCampoDateTimeObrigatorio("Informe a "
-                        + "data e hora(Formato: dd/MM/yyyy hh:mm)", getScanner());
+            + "data e hora(Formato: dd/MM/yyyy hh:mm)", getScanner());
 
 		List<Evento> eventosFiltrados = buscarEventosPorData(data);
 
@@ -76,7 +75,7 @@ public class ViewBuscaEventos {
 		System.out.println("##### Bem Vindo a Pesquisa de Evento "
 				+ "Por Interessado #####\n");
 
-		List<Interessado> listInteressadosCadastradas = 
+		List<Interessado> listInteressadosCadastradas =
                         interessadoController.listarInteressados();
 
 		int idInteressado = selecionarInteressado(
@@ -126,7 +125,7 @@ public class ViewBuscaEventos {
                     return;
                 }
 	}
-    
+
 	private int selecionarInteressado(List<Interessado> listInteressados) {
 		int idInteressado = 0;
         do {

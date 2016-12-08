@@ -1,18 +1,19 @@
 package br.ufg.inf.mds.strangecalendar.controller;
 
+import java.util.List;
+
+import org.joda.time.LocalDateTime;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+
 import br.ufg.inf.mds.strangecalendar.entidade.Evento;
 import br.ufg.inf.mds.strangecalendar.enums.Interessados;
 import br.ufg.inf.mds.strangecalendar.repository.EventoRepository;
 import br.ufg.inf.mds.strangecalendar.repository.InteressadoRepository;
 import br.ufg.inf.mds.strangecalendar.services.EventoService;
-import br.ufg.inf.mds.strangecalendar.services.InteressadoService;
+import br.ufg.inf.mds.strangecalendar.services.RegionalService;
 import br.ufg.inf.mds.strangecalendar.services.exceptions.NaoEncontradoException;
 import br.ufg.inf.mds.strangecalendar.services.exceptions.ServicoException;
-import org.joda.time.LocalDateTime;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
-
-import java.util.List;
 
 /**
  * Controlador das operações relacionadas a Evento.
@@ -26,7 +27,7 @@ public class EventoController {
     private EventoService eventoService;
 
     @Autowired
-    private InteressadoService interessadoService;
+    private RegionalService regionalService;
 
     @Autowired
     private EventoRepository eventoRepository;
@@ -71,7 +72,7 @@ public class EventoController {
     public List<Evento> buscarEventoPorRegional(long idRegional)
     		throws NaoEncontradoException {
 
-        return interessadoService.buscarPorId(idRegional).getEventos();
+        return regionalService.buscarPorId(idRegional).getEventos();
     }
 
 }
