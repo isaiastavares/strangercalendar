@@ -25,16 +25,12 @@ public class ViewMenuPrincipal {
     public void exibirMenuPrincipal() {
         context = new AnnotationConfigApplicationContext(Config.class);
         Scanner scanner = new Scanner(System.in);
-        
+
         viewCadastrarRegional = new ViewCadastrarRegional(scanner, context);
         viewCadastrarEventos = new ViewCadastrarEventos(scanner, context);
         viewBuscaEventos = new ViewBuscaEventos(scanner, context);
         viewExcluirEvento = new ViewExcluirEvento(scanner, context);
         viewEditarEvento = new ViewEditarEvento(scanner, context);
-		viewCadastrarRegional = new ViewCadastrarRegional(scanner, context);
-		viewCadastrarEventos = new ViewCadastrarEventos(scanner, context);
-		viewBuscaEventos = new ViewBuscaEventos(scanner, context);
-		viewExcluirEvento = new ViewExcluirEvento(scanner, context);
         viewExcluirRegional = new ViewExcluirRegional(scanner, context);
         viewListarRegionais = new ViewListarRegionais(context);
 

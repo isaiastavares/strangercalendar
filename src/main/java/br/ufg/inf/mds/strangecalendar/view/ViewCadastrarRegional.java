@@ -33,24 +33,15 @@ public class ViewCadastrarRegional {
 
         String nome = Leitura.lerCampoStringObrigatorio("Informe o nome "
                 + "da Regional", getScanner());
-        String cidade = Leitura.lerCampoStringObrigatorio("Informe a "
-                + "cidade onde está localizada a Regional", getScanner());
-        String estado = Leitura.lerCampoStringObrigatorio("Informe o "
-                + "estado onde está localizada a Regional", getScanner());
 
         Regional regional = new Regional();
-        regional = popularObjetoRegional(regional, nome, cidade, estado);
+        regional = popularObjetoRegional(regional, nome);
 
         inserirRegional(regional);
     }
 
-    private Regional popularObjetoRegional(Regional regional, String nome,
-            String cidade, String estado) {
-
+    private Regional popularObjetoRegional(Regional regional, String nome) {
         regional.setNome(nome);
-        regional.setCidade(cidade);
-        regional.setEstado(estado);
-
         return regional;
     }
 
