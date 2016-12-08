@@ -1,14 +1,13 @@
 package br.ufg.inf.mds.strangecalendar.view;
 
-import java.util.List;
-import java.util.Scanner;
-
-import org.springframework.context.ApplicationContext;
-
 import br.ufg.inf.mds.strangecalendar.controller.EventoController;
 import br.ufg.inf.mds.strangecalendar.entidade.Evento;
 import br.ufg.inf.mds.strangecalendar.services.exceptions.ServicoException;
 import br.ufg.inf.mds.strangecalendar.util.Leitura;
+import org.springframework.context.ApplicationContext;
+
+import java.util.List;
+import java.util.Scanner;
 
 public class ViewExcluirEvento {
 
@@ -38,7 +37,7 @@ public class ViewExcluirEvento {
 		try {
 			long idEventoLong = Long.parseLong(idEvento.toString());
 			Evento evento = eventoController.excluirEventoPorId(idEventoLong);
-			System.out.println("Evento excluído com sucesso! Detalhes do "
+			System.out.println("Evento excluído com sucesso!\nDetalhes do "
 					+ "evento: " + evento.toString());
 		} catch (ServicoException e) {
 			System.out.println("Não foi possível excluir o evento com ID: "

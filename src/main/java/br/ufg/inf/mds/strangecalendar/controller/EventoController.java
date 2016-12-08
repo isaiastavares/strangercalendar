@@ -1,11 +1,5 @@
 package br.ufg.inf.mds.strangecalendar.controller;
 
-import java.util.List;
-
-import org.joda.time.LocalDate;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
-
 import br.ufg.inf.mds.strangecalendar.entidade.Evento;
 import br.ufg.inf.mds.strangecalendar.enums.Interessados;
 import br.ufg.inf.mds.strangecalendar.repository.EventoRepository;
@@ -14,6 +8,11 @@ import br.ufg.inf.mds.strangecalendar.services.EventoService;
 import br.ufg.inf.mds.strangecalendar.services.InteressadoService;
 import br.ufg.inf.mds.strangecalendar.services.exceptions.NaoEncontradoException;
 import br.ufg.inf.mds.strangecalendar.services.exceptions.ServicoException;
+import org.joda.time.LocalDateTime;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+
+import java.util.List;
 
 /**
  * Controlador das operações relacionadas a Evento.
@@ -55,7 +54,7 @@ public class EventoController {
         return eventoRepository.findById(id);
     }
 
-    public List<Evento> buscarEventoPorData(LocalDate data) {
+    public List<Evento> buscarEventoPorData(LocalDateTime data) {
         return eventoRepository.findByData(data);
     }
 

@@ -1,17 +1,10 @@
 package br.ufg.inf.mds.strangecalendar.entidade;
 
-import java.util.Set;
-
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
-import javax.persistence.ManyToMany;
-import javax.persistence.Table;
-
-import org.joda.time.LocalDate;
-
 import br.ufg.inf.mds.strangecalendar.util.Leitura;
+import org.joda.time.LocalDateTime;
+
+import javax.persistence.*;
+import java.util.Set;
 
 /**
  * Entidade contendo informações sobre
@@ -30,10 +23,10 @@ public class Evento extends Entidade {
 	private String descricao;
 
 	@Column(nullable = false)
-	private LocalDate dataInicio;
+	private LocalDateTime dataInicio;
 
 	@Column(nullable = false)
-	private LocalDate dataFim;
+	private LocalDateTime dataFim;
 
 	@ManyToMany
 	@JoinTable(name = "eventos_regionais",
@@ -55,19 +48,19 @@ public class Evento extends Entidade {
 		this.descricao = descricao;
 	}
 
-	public LocalDate getDataInicio() {
+	public LocalDateTime getDataInicio() {
 		return dataInicio;
 	}
 
-	public void setDataInicio(LocalDate dataInicio) {
+	public void setDataInicio(LocalDateTime dataInicio) {
 		this.dataInicio = dataInicio;
 	}
 
-	public LocalDate getDataFim() {
+	public LocalDateTime getDataFim() {
 		return dataFim;
 	}
 
-	public void setDataFim(LocalDate dataFim) {
+	public void setDataFim(LocalDateTime dataFim) {
 		this.dataFim = dataFim;
 	}
 
