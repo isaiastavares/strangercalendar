@@ -4,7 +4,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>strange-calendar</groupId>
 	<artifactId>strange-calendar</artifactId>
-	<version>2.0</version>
+	<version>3.0</version>
 
 	<name>Strange Calendar</name>
 	<description>Sistema de Gestão do Calendário Acadêmico da UFG</description>
