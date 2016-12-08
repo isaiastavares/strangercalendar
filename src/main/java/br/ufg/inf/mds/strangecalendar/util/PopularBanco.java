@@ -118,7 +118,7 @@ public class PopularBanco {
                 Leitura.DATE_FORMATTER));
 
         Evento formados2016 = new Evento();
-        formados2016.setDescricao("Período das aulas do 2º semestre do CEPAE");
+        formados2016.setDescricao("Formando do Período de 2016");
         formados2016.setDataInicio(LocalDateTime.parse("09/12/2016 00:00" ,
                 Leitura.DATE_FORMATTER));
         formados2016.setDataFim(LocalDateTime.parse("23/01/2017 00:00" ,
