@@ -1,10 +1,9 @@
 package br.ufg.inf.mds.strangecalendar.repository;
 
-import java.util.Optional;
-
+import br.ufg.inf.mds.strangecalendar.entidade.Regional;
 import org.springframework.stereotype.Repository;
 
-import br.ufg.inf.mds.strangecalendar.entidade.Regional;
+import java.util.Optional;
 
 /**
  * Repositório de {@link Regional}
@@ -15,5 +14,7 @@ import br.ufg.inf.mds.strangecalendar.entidade.Regional;
 public interface RegionalRepository extends IRepository<Regional> {
 
 	public Optional<Regional> findByNomeIgnoreCase(String nome);
+
+	public Regional findByNome(String nome);
 
 }

@@ -1,14 +1,14 @@
 package br.ufg.inf.mds.strangecalendar.services;
 
-import java.util.Optional;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
 import br.ufg.inf.mds.strangecalendar.entidade.Regional;
 import br.ufg.inf.mds.strangecalendar.repository.IRepository;
 import br.ufg.inf.mds.strangecalendar.repository.RegionalRepository;
 import br.ufg.inf.mds.strangecalendar.services.exceptions.ServicoException;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import javax.annotation.PostConstruct;
+import java.util.Optional;
 
 /**
  * Service de {@link Regional}
@@ -30,6 +30,18 @@ public class RegionalService extends AbstractService<Regional> {
 	@Override
 	public IRepository<Regional> getRepositorio() {
 		return regionalRepository;
+	}
+
+	@PostConstruct
+	public void initialize() {
+		if (regionalRepository.findAll().isEmpty()) {
+			Regional regional = new Regional();
+			regional.setNome("UFG");
+			regional.setCidade("Goiânia");
+			regional.setEstado("Goiás");
+
+			regionalRepository.save(regional);
+		}
 	}
 
 	@Override

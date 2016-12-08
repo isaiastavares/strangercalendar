@@ -24,5 +24,4 @@ public interface EventoRepository extends IRepository<Evento> {
 	public List<Evento> findByData(@Param("data") LocalDateTime data);
 	
 	public Evento findById(Long id);
-
 }
