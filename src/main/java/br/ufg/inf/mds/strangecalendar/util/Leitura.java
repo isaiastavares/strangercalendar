@@ -1,11 +1,11 @@
 package br.ufg.inf.mds.strangecalendar.util;
 
-import java.util.Scanner;
-
 import org.apache.commons.lang.StringUtils;
-import org.joda.time.LocalDate;
+import org.joda.time.LocalDateTime;
 import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
+
+import java.util.Scanner;
 
 /**
  * Classe utilitária na leitura das entradas.
@@ -15,7 +15,7 @@ import org.joda.time.format.DateTimeFormatter;
 public final class Leitura {
 
     public static final DateTimeFormatter DATE_FORMATTER = DateTimeFormat
-            .forPattern("dd/MM/yyyy");
+            .forPattern("dd/MM/yyyy HH:mm");
 
     private Leitura() {
     }
@@ -109,18 +109,18 @@ public final class Leitura {
      * @param scanner instancia do Scanner
      * @return a data informada
      */
-    public static LocalDate lerCampoDateObrigatorio(String mensagem,
-            Scanner scanner) {
+    public static LocalDateTime lerCampoDateTimeObrigatorio(String mensagem,
+                                                            Scanner scanner) {
 
-        LocalDate date = null;
+        LocalDateTime date = null;
         do {
             try {
                 System.out.println(mensagem);
                 String dataTexto = scanner.nextLine();
-                date = LocalDate.parse(dataTexto, DATE_FORMATTER);
+                date = LocalDateTime.parse(dataTexto, DATE_FORMATTER);
             } catch (final IllegalArgumentException e) {
-                System.out.println("Data Inválida. Informe uma data no "
-                        + "formato dd/MM/yyyy");
+                System.out.println("Data Inválida. Informe uma data/hora no "
+                        + "formato dd/MM/yyyy hh:mm");
                 date = null;
             }
         } while (date == null);

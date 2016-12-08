@@ -1,12 +1,5 @@
 package br.ufg.inf.mds.strangecalendar.view;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Scanner;
-
-import org.joda.time.LocalDate;
-import org.springframework.context.ApplicationContext;
-
 import br.ufg.inf.mds.strangecalendar.controller.EventoController;
 import br.ufg.inf.mds.strangecalendar.controller.InteressadoController;
 import br.ufg.inf.mds.strangecalendar.controller.RegionalController;
@@ -16,6 +9,12 @@ import br.ufg.inf.mds.strangecalendar.entidade.Regional;
 import br.ufg.inf.mds.strangecalendar.enums.Interessados;
 import br.ufg.inf.mds.strangecalendar.services.exceptions.NaoEncontradoException;
 import br.ufg.inf.mds.strangecalendar.util.Leitura;
+import org.joda.time.LocalDateTime;
+import org.springframework.context.ApplicationContext;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Scanner;
 
 /**
  * @author Leonardo
@@ -40,8 +39,8 @@ public class ViewBuscaEventos {
 		System.out.println("##### Bem Vindo a Pesquisa de "
 				+ "Evento Por Data #####\n");
 
-		LocalDate data = Leitura.lerCampoDateObrigatorio("Informe a "
-                        + "data(Formato: dd/MM/yyyy)", getScanner());
+		LocalDateTime data = Leitura.lerCampoDateTimeObrigatorio("Informe a "
+                        + "data e hora(Formato: dd/MM/yyyy hh:mm)", getScanner());
 
 		List<Evento> eventosFiltrados = buscarEventosPorData(data);
 
@@ -177,7 +176,7 @@ public class ViewBuscaEventos {
 		return idRegional;
 	}
 
-	private List<Evento> buscarEventosPorData(LocalDate data) {
+	private List<Evento> buscarEventosPorData(LocalDateTime data) {
 		List<Evento> eventosEncontrados = eventoController
 				.buscarEventoPorData(data);
 

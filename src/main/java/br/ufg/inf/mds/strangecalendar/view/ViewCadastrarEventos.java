@@ -1,17 +1,5 @@
 package br.ufg.inf.mds.strangecalendar.view;
 
-import java.util.LinkedHashMap;
-import java.util.LinkedHashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Scanner;
-import java.util.Set;
-
-import org.joda.time.LocalDate;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.context.ApplicationContext;
-
 import br.ufg.inf.mds.strangecalendar.controller.EventoController;
 import br.ufg.inf.mds.strangecalendar.controller.InteressadoController;
 import br.ufg.inf.mds.strangecalendar.controller.RegionalController;
@@ -20,6 +8,12 @@ import br.ufg.inf.mds.strangecalendar.entidade.Interessado;
 import br.ufg.inf.mds.strangecalendar.entidade.Regional;
 import br.ufg.inf.mds.strangecalendar.services.exceptions.ServicoException;
 import br.ufg.inf.mds.strangecalendar.util.Leitura;
+import org.joda.time.LocalDateTime;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.context.ApplicationContext;
+
+import java.util.*;
 
 /**
  *
@@ -56,11 +50,13 @@ public class ViewCadastrarEventos {
         String descricao = Leitura.lerCampoStringObrigatorio("Informe a "
                 + "descrição do Evento", getScanner());
 
-        LocalDate dataInicio = Leitura.lerCampoDateObrigatorio("Informe a data "
-                + "de início do Evento (Formato: dd/MM/yyyy)", getScanner());
+        LocalDateTime dataInicio = Leitura.lerCampoDateTimeObrigatorio
+                ("Informe a data/hora "
+                + "de início do Evento (Formato: dd/MM/yyyy hh:mm)", getScanner());
 
-        LocalDate dataFim = Leitura.lerCampoDateObrigatorio("Informe a data de "
-                + "término do Evento  (Formato: dd/MM/yyyy)", getScanner());
+        LocalDateTime dataFim = Leitura.lerCampoDateTimeObrigatorio("Informe" +
+                " a data/hora de "
+                + "término do Evento  (Formato: dd/MM/yyyy hh:mm)", getScanner());
 
         Evento evento = new Evento();
         evento = popularObjetoEvento(evento, descricao, dataInicio, dataFim,
@@ -76,7 +72,8 @@ public class ViewCadastrarEventos {
     }
 
     private Evento popularObjetoEvento(Evento evento, String descricao,
-            LocalDate dataInicio, LocalDate dataFim, Set<Regional> listRegional,
+            LocalDateTime dataInicio, LocalDateTime dataFim, Set<Regional>
+                                               listRegional,
             Set<Interessado>listInteressados) {
 
         evento.setDescricao(descricao);

@@ -1,13 +1,12 @@
 package br.ufg.inf.mds.strangecalendar.repository;
 
-import java.util.List;
-
-import org.joda.time.LocalDate;
+import br.ufg.inf.mds.strangecalendar.entidade.Evento;
+import org.joda.time.LocalDateTime;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
-import br.ufg.inf.mds.strangecalendar.entidade.Evento;
+import java.util.List;
 
 /**
  * Repositório de {@link Evento}
@@ -22,9 +21,8 @@ public interface EventoRepository extends IRepository<Evento> {
 
 	@Query("select e from Evento e where "
 			+ "e.dataInicio <= :data and e.dataFim >= :data")
-	public List<Evento> findByData(@Param("data") LocalDate data);
+	public List<Evento> findByData(@Param("data") LocalDateTime data);
 	
-	@Query("select e from Evento e where id = :id")
-	public Evento findById(@Param("id") Long id);
+	public Evento findById(Long id);
 
 }
