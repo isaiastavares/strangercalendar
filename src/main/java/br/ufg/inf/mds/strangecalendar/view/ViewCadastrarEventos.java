@@ -158,7 +158,7 @@ public class ViewCadastrarEventos {
             }
             try {
                 idRegional = Integer.parseInt(getScanner().nextLine());
-                if (idRegional < 1 || idRegional > mapRegionais.size()) {
+                if (!(buscarRegionalCadastrada(mapRegionais, idRegional))) {
                     System.out.println("Número informado não corresponde a "
                             + "nenhuma Regional");
                 }
@@ -166,13 +166,37 @@ public class ViewCadastrarEventos {
                 System.out.println("Entrada inválida. Informe um número inteiro"
                         + " correspondente a Regional");
             }
-        } while (idRegional < 1 || idRegional > mapRegionais.size());
-        regionaisEscolhidas.add(listRegionaisCadastradas.get(idRegional - 1));
+        } while (!buscarRegionalCadastrada(mapRegionais, idRegional));
+        regionaisEscolhidas.add(obterRegionalPeloId(mapRegionais, idRegional));
 
         return regionaisEscolhidas;
     }
 
-    private Set<Interessado> adicionarInteressadoSelecionadaNaList(
+	private Regional obterRegionalPeloId(Map<Long, String> mapRegionais, int idRegional) {
+		Regional regional = new Regional();
+        long idRegionalLong = idRegional;
+        String nomeRegional = mapRegionais.get(idRegionalLong);
+        regional.setId(idRegionalLong);
+        regional.setNome(nomeRegional);
+        
+		return regional;
+	}
+
+	private boolean buscarRegionalCadastrada(Map<Long, String> mapRegionais, 
+			Integer idRegional) {
+		
+		    boolean existeRegional = false;
+            long idRegionalLong = idRegional;
+            String value = mapRegionais.get(idRegionalLong);
+            
+            if(value != null){
+            	existeRegional = true;
+            }
+
+		return existeRegional;
+	}
+
+	private Set<Interessado> adicionarInteressadoSelecionadaNaList(
             Set<Interessado> interessadosEscolhidos,
             List<Interessado> listInteressadosCadastrados) {
 
