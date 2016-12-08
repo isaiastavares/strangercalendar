@@ -1,14 +1,14 @@
 package br.ufg.inf.mds.strangecalendar.services;
 
+import java.util.Optional;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
 import br.ufg.inf.mds.strangecalendar.entidade.Regional;
 import br.ufg.inf.mds.strangecalendar.repository.IRepository;
 import br.ufg.inf.mds.strangecalendar.repository.RegionalRepository;
 import br.ufg.inf.mds.strangecalendar.services.exceptions.ServicoException;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
-import javax.annotation.PostConstruct;
-import java.util.Optional;
 
 /**
  * Service de {@link Regional}
@@ -32,24 +32,12 @@ public class RegionalService extends AbstractService<Regional> {
 		return regionalRepository;
 	}
 
-	@PostConstruct
-	public void initialize() {
-		if (regionalRepository.findAll().isEmpty()) {
-			Regional regional = new Regional();
-			regional.setNome("UFG");
-			regional.setCidade("Goiânia");
-			regional.setEstado("Goiás");
-
-			regionalRepository.save(regional);
-		}
-	}
-
 	@Override
 	protected void antesInserir(Regional regional) throws ServicoException {
 		Optional<Regional> optional = regionalRepository
 				.findByNomeIgnoreCase(regional.getNome());
 
-		if(optional.isPresent() && optional.get().getId() != 
+		if(optional.isPresent() && optional.get().getId() !=
                         regional.getId()) {
 			throw new ServicoException("Já existe uma Regional "
 					+ "com o mesmo nome");

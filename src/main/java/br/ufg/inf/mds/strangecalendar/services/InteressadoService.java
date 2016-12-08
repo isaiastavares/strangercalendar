@@ -1,15 +1,9 @@
 package br.ufg.inf.mds.strangecalendar.services;
 
-import java.util.ArrayList;
-
-import javax.annotation.PostConstruct;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import br.ufg.inf.mds.strangecalendar.entidade.Evento;
 import br.ufg.inf.mds.strangecalendar.entidade.Interessado;
-import br.ufg.inf.mds.strangecalendar.enums.Interessados;
 import br.ufg.inf.mds.strangecalendar.repository.IRepository;
 import br.ufg.inf.mds.strangecalendar.repository.InteressadoRepository;
 import br.ufg.inf.mds.strangecalendar.services.exceptions.ServicoException;
@@ -30,20 +24,6 @@ public class InteressadoService extends AbstractService<Interessado> {
 	public InteressadoService(InteressadoRepository eventoRepository) {
 		this.interessadoRepository = eventoRepository;
 	}
-
-	/**
-     * Inserindo os interessados na primeira vez que a aplicação subir...
-     */
-    @PostConstruct
-    public void initialize() {
-        if (interessadoRepository.findAll().isEmpty()) {
-            for (Interessados interessado : Interessados.values()) {
-            	interessadoRepository.save(
-            			new Interessado(interessado.getNome(),
-            			new ArrayList<Evento>()));
-            }
-        }
-    }
 
 	@Override
 	public IRepository<Interessado> getRepositorio() {

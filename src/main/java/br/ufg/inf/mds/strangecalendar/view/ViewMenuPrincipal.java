@@ -6,6 +6,7 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
 import br.ufg.inf.mds.strangecalendar.Config;
+import br.ufg.inf.mds.strangecalendar.util.PopularBanco;
 
 /**
  * @author Leonardo
@@ -24,6 +25,9 @@ public class ViewMenuPrincipal {
 
     public void exibirMenuPrincipal() {
         context = new AnnotationConfigApplicationContext(Config.class);
+        PopularBanco popularBanco = context.getBean(PopularBanco.class);
+        popularBanco.inicializarBanco();
+
         Scanner scanner = new Scanner(System.in);
 
         viewCadastrarRegional = new ViewCadastrarRegional(scanner, context);
