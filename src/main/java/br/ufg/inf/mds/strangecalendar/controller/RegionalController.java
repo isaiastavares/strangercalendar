@@ -32,4 +32,8 @@ public class RegionalController {
        return regionalService.excluir(idEvento);
     }
 
+    public Regional findRegionalPorId(long idRegional) throws ServicoException {
+       return regionalService.buscarPorId(idRegional);
+    }
+
 }

@@ -1,5 +1,16 @@
 package br.ufg.inf.mds.strangecalendar.view;
 
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Scanner;
+import java.util.Set;
+
+import org.joda.time.LocalDateTime;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.context.ApplicationContext;
+
 import br.ufg.inf.mds.strangecalendar.controller.EventoController;
 import br.ufg.inf.mds.strangecalendar.controller.InteressadoController;
 import br.ufg.inf.mds.strangecalendar.controller.RegionalController;
@@ -8,18 +19,16 @@ import br.ufg.inf.mds.strangecalendar.entidade.Interessado;
 import br.ufg.inf.mds.strangecalendar.entidade.Regional;
 import br.ufg.inf.mds.strangecalendar.enums.Interessados;
 import br.ufg.inf.mds.strangecalendar.services.exceptions.NaoEncontradoException;
+import br.ufg.inf.mds.strangecalendar.services.exceptions.ServicoException;
 import br.ufg.inf.mds.strangecalendar.util.Leitura;
-import org.joda.time.LocalDateTime;
-import org.springframework.context.ApplicationContext;
-
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Scanner;
 
 /**
  * @author Leonardo
  */
 public class ViewBuscaEventos {
+
+	private static final Logger LOG = LoggerFactory
+    		.getLogger(ViewBuscaEventos.class);
 
 	private Scanner scanner;
 	private EventoController eventoController;
@@ -52,15 +61,20 @@ public class ViewBuscaEventos {
 		imprimirEventosEncontrados(eventosFiltrados);
 	}
 
-	public void exibirBuscaEventoPalavraChave() {
+	public void exibirBuscaEventoPalavraChave(Set<Regional> regionais) {
 		System.out.println("##### Bem Vindo a Pesquisa de Evento "
 				+ "Por Palavra Chave #####\n");
 
 		String palavraChave = Leitura.lerCampoStringObrigatorio(
 				"Informe a palavra chave", getScanner());
 
-		List<Evento> eventosFiltrados = buscarEventosPorPalavraChave(
-				palavraChave);
+		List<Evento> eventosFiltrados = new ArrayList<Evento>();
+		if (regionais == null || regionais.isEmpty()) {
+			eventosFiltrados = buscarEventosPorPalavraChave(
+					palavraChave);
+		} else {
+			eventosFiltrados = eventoController.buscarEventosPorPalavraChaveERegional(palavraChave, regionais);
+		}
 
 		if (eventosFiltrados.isEmpty()) {
 			System.out.println("Não encontrei nenhum evento "
@@ -71,28 +85,37 @@ public class ViewBuscaEventos {
 		imprimirEventosEncontrados(eventosFiltrados);
 	}
 
-	public void exibirBuscaEventoPorInteressado() {
+	public void exibirBuscaEventoPorInteressado(Set<Regional> regionais) {
 		System.out.println("##### Bem Vindo a Pesquisa de Evento "
 				+ "Por Interessado #####\n");
 
 		List<Interessado> listInteressadosCadastradas =
                         interessadoController.listarInteressados();
 
-		int idInteressado = selecionarInteressado(
-                        listInteressadosCadastradas);
-		Interessados interessadoEscolhido = Interessados
-                        .fromId(idInteressado);
+		int idInteressado = selecionarInteressado(listInteressadosCadastradas);
+		try {
+			Interessado interessado = interessadoController.findInteressadoPorId(idInteressado);
+			Set<Interessado> setInteressado = new HashSet<Interessado>();
+			setInteressado.add(interessado);
+			Interessados interessadoEscolhido = Interessados.fromId(idInteressado);
 
-		List<Evento> eventosFiltrados = buscarEventosPorInteressado(
-				interessadoEscolhido);
+			List<Evento> eventosFiltrados = new ArrayList<>();
+			if (regionais == null || regionais.isEmpty()) {
+				eventosFiltrados = buscarEventosPorInteressado(interessadoEscolhido);
+			} else {
+				eventosFiltrados = eventoController.buscarEventosPorInteressadoERegional(setInteressado, regionais);
+			}
 
-		if (eventosFiltrados.isEmpty()) {
-			System.out.println("Não encontrei nenhum evento "
-					+ "para esse interessado");
-			return;
+			if (eventosFiltrados.isEmpty()) {
+				System.out.println("Não encontrei nenhum evento "
+						+ "para esse interessado");
+				return;
+			}
+
+			imprimirEventosEncontrados(eventosFiltrados);
+		} catch (ServicoException e) {
+			LOG.error(e.getMessage(), e);
 		}
-
-		imprimirEventosEncontrados(eventosFiltrados);
 	}
 
     public void exibirBuscaEventoPorRegional() {
@@ -102,28 +125,72 @@ public class ViewBuscaEventos {
 		List<Regional> listRegionaisCadastradas = regionalController
 				.listarRegionais();
 
-                if ( ! listRegionaisCadastradas.isEmpty()) {
-                    long idRegional = selecionarRegional(listRegionaisCadastradas);
+        if (listRegionaisCadastradas.isEmpty()) {
+        	System.out.println("Não existe nenhuma regional cadastrada");
+            return;
+        } else {
+        	long idRegional = selecionarRegional(listRegionaisCadastradas);
 
-                    List<Evento> eventosFiltrados = new ArrayList<>();
-                    try {
-                            eventosFiltrados = buscarEventosPorRegional(idRegional);
-                    } catch (NaoEncontradoException e) {
-                            System.out.println("Não existe nenhuma regional "
-                                    + "com o ID: " + idRegional);
-                    }
+            try {
+				Regional regional =
+						regionalController.findRegionalPorId(idRegional);
 
-                    if (eventosFiltrados.isEmpty()) {
-                            System.out.println("Não encontrei nenhum evento "
-                                            + "para essa regional");
-                            return;
-                    }
+				Set<Regional> setRegional = new HashSet<Regional>();
+				setRegional.add(regional);
 
-                    imprimirEventosEncontrados(eventosFiltrados);
-                }else{
-                    System.out.println("Não existe nenhuma regional cadastrada");
-                    return;
-                }
+				int opcao = 1;
+		        while (opcao != 0) {
+		        	System.out.println("Você está na Regional " + regional.getNome() +
+		        			" . Escolha uma das opções abaixo: ");
+		        	System.out.println("\n0 - Sair do menu.");
+		            System.out.println("1 - Listar todos os eventos da Regional.");
+		            System.out.println("2 - Pesquisar evento por Palavra Chave.");
+		            System.out.println("3 - Pesquisar evento por Interessado.");
+
+		            try {
+		                opcao = Integer.parseInt(scanner.nextLine());
+		            } catch (NumberFormatException ex) {
+		                //  atribuindo 100 a variavel opcao para poder
+		                //  exibir o menu novamente.
+		                opcao = 100;
+		            }
+
+		            switch (opcao) {
+			        	case 0:
+			        		break;
+			            case 1:
+			            	List<Evento> eventosFiltrados = new ArrayList<>();
+			                try {
+			                        eventosFiltrados = buscarEventosPorRegional(idRegional);
+			                } catch (NaoEncontradoException e) {
+			                        System.out.println("Não existe nenhuma regional "
+			                                + "com o ID: " + idRegional);
+			                }
+
+			                if (eventosFiltrados.isEmpty()) {
+			                        System.out.println("Não encontrei nenhum evento "
+			                                        + "para essa regional");
+			                        return;
+			                }
+
+			                imprimirEventosEncontrados(eventosFiltrados);
+			                break;
+			            case 2:
+			            	exibirBuscaEventoPalavraChave(setRegional);
+			                break;
+			            case 3:
+			            	exibirBuscaEventoPorInteressado(setRegional);
+			                break;
+			            default:
+			            	System.out.println("Número Inválido. Tente novamente "
+			                            + "digitando um número válido.");
+			                break;
+			        }
+		        }
+			} catch (ServicoException e) {
+				LOG.error(e.getMessage(), e);
+			}
+        }
 	}
 
 	private int selecionarInteressado(List<Interessado> listInteressados) {

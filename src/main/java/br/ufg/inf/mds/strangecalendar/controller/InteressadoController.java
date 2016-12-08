@@ -7,6 +7,7 @@ import org.springframework.stereotype.Controller;
 
 import br.ufg.inf.mds.strangecalendar.entidade.Interessado;
 import br.ufg.inf.mds.strangecalendar.services.InteressadoService;
+import br.ufg.inf.mds.strangecalendar.services.exceptions.ServicoException;
 
 /**
  * Controlador responsável pelas operações relacionadas ao Interessado
@@ -22,4 +23,8 @@ public class InteressadoController {
     public List<Interessado> listarInteressados() {
     	return interessadoService.getRepositorio().findAll();
     }
+
+    public Interessado findInteressadoPorId(long idInteressado) throws ServicoException {
+        return interessadoService.buscarPorId(idInteressado);
+     }
 }

@@ -64,13 +64,13 @@ public class ViewMenuPrincipal {
                 opcao = 100;
             }
 
-            redirecionarAcao(opcao, scanner);
+            redirecionarAcao(opcao);
         }
         System.out.println("Fim do Programa");
         System.exit(0);
     }
 
-    private void redirecionarAcao(int opcao, Scanner scanner) {
+    private void redirecionarAcao(int opcao) {
         switch (opcao) {
         	case 0:
         		break;
@@ -84,13 +84,13 @@ public class ViewMenuPrincipal {
             	viewBuscaEventos.exibirBuscaEventoData();
             	break;
             case 4:
-            	viewBuscaEventos.exibirBuscaEventoPalavraChave();
+            	viewBuscaEventos.exibirBuscaEventoPalavraChave(null);
                 break;
             case 5:
                 viewBuscaEventos.exibirBuscaEventoPorRegional();
                 break;
             case 6:
-            	viewBuscaEventos.exibirBuscaEventoPorInteressado();
+            	viewBuscaEventos.exibirBuscaEventoPorInteressado(null);
                 break;
             case 7:
             	viewExcluirEvento.exibirExcluirEvento();
